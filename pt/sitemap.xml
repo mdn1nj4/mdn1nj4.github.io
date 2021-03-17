@@ -3,36 +3,6 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://mdninja.ml/pt/</loc>
-    <lastmod>2019-02-28T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://mdninja.ml/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="pt"
-                href="https://mdninja.ml/pt/"
-                />
-  </url>
-  
-  <url>
-    <loc>https://mdninja.ml/pt/about/</loc>
-    <lastmod>2019-02-28T00:00:00+00:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="en"
-                href="https://mdninja.ml/about/"
-                />
-    <xhtml:link
-                rel="alternate"
-                hreflang="pt"
-                href="https://mdninja.ml/pt/about/"
-                />
-  </url>
-  
-  <url>
     <loc>https://mdninja.ml/pt/categories/</loc>
     <xhtml:link
                 rel="alternate"
@@ -43,6 +13,20 @@
                 rel="alternate"
                 hreflang="pt"
                 href="https://mdninja.ml/pt/categories/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://mdninja.ml/pt/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mdninja.ml/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="https://mdninja.ml/pt/"
                 />
   </url>
   

