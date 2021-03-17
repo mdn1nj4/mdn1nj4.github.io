@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://mdn1nj4.github.io/pt/</loc>
+    <lastmod>2019-02-28T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mdn1nj4.github.io/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="https://mdn1nj4.github.io/pt/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://mdn1nj4.github.io/pt/about/</loc>
+    <lastmod>2019-02-28T00:00:00+00:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mdn1nj4.github.io/about/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="https://mdn1nj4.github.io/pt/about/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://mdn1nj4.github.io/pt/categories/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mdn1nj4.github.io/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="https://mdn1nj4.github.io/pt/categories/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://mdn1nj4.github.io/pt/series/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mdn1nj4.github.io/series/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="https://mdn1nj4.github.io/pt/series/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://mdn1nj4.github.io/pt/tags/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://mdn1nj4.github.io/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="pt"
+                href="https://mdn1nj4.github.io/pt/tags/"
+                />
+  </url>
+  
+</urlset>
