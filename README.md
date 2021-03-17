@@ -1,1 +1,0 @@
-# __This is blog page.__
