@@ -18,11 +18,9 @@
           &lt;h1 id=&#34;__introduction__&#34;&gt;&lt;strong&gt;Introduction&lt;/strong&gt;&lt;/h1&gt;
 &lt;p&gt;Passage is medium level machine, Enumuration is the key for this box. First we have to exploit the cutenews Web application to Get the initial reverse shell after that i found the bunch of php files which contains the user information with base64 format then we get the hash for the user paul and decrypt the hash and i login to to user paul. The user paul and nadav share the  ssh keys so i copied the ssh key and Get access to the user nadav after that i found the nadav user in sudo group and .vim info reveal the usefull imformation for getting root this machine  In order to root this machine i used the USBCreator D-Bus Privilege Escalation.&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Skills Required : Enumuration
-Linux basic&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Skills Learned : web Exploitaion
+&lt;p&gt;Skills Required : Enumuration,
+Basic linux command&lt;br&gt;
+Skills Learned : web Exploitaion,
 USBCreator D-Bus Privilege Escalation&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h1 id=&#34;__enumuration__&#34;&gt;&lt;strong&gt;Enumuration&lt;/strong&gt;&lt;/h1&gt;
@@ -52,15 +50,21 @@ USBCreator D-Bus Privilege Escalation&lt;/p&gt;
 &lt;span class=&#34;ln&#34;&gt;18&lt;/span&gt;Nmap done: 1 IP address (1 host up) scanned in 22.31 seconds
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;so the machine run the apache web server. I opened the web page in my browser&lt;/p&gt;
 &lt;h1 id=&#34;__cutenews__&#34;&gt;&lt;strong&gt;CuteNews&lt;/strong&gt;&lt;/h1&gt;
-&lt;p&gt;&lt;img src=&#34;https://mdninja.ml/images/passage/passage_web_screen_shot.png&#34; alt=&#34;&#34;&gt;
-web page show the host name and give me the 2 Email address
+&lt;blockquote&gt;
+&lt;p&gt;Web page
+&lt;img src=&#34;https://mdninja.ml/images/passage/passage_web_screen_shot.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;web page show the host name and give me the 2 Email address&lt;br&gt;
 admin		: &lt;a href=&#34;mailto:nadav@passage.htb&#34;&gt;nadav@passage.htb&lt;/a&gt;&lt;br&gt;
 paul Colas	: &lt;a href=&#34;mailto:paul@passage.htb&#34;&gt;paul@passage.htb&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;I add the passage.htb on my /etc/hosts file.&lt;br&gt;
 and the page reveals website is powered by Cutenews
-after searching on the internet i found the cutenews is the news management based on flat files as a storage.
-&lt;img src=&#34;https://mdninja.ml/images/passage/passage_cutenews_info.png&#34; alt=&#34;&#34;&gt;
-so after that i searched on the internet for any Exploit available for cutenews ad i looked the page source code i found some interesting information&lt;/p&gt;
+after searching on the internet i found the cutenews is the news management based on flat files as a storage.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Google Result
+&lt;img src=&#34;https://mdninja.ml/images/passage/passage_cutenews_info.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;so after that i searched on the internet for any Exploit available for cutenews ad i looked the page source code i found some interesting information&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;# Source Page Code 
 &lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;link&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;href&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;CuteNews/libs/css/cosmo.min.css&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;rel&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;stylesheet&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
 &lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;link&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;href&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;CuteNews/libs/css/font-awesome.min.css&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;rel&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;stylesheet&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
@@ -91,8 +95,13 @@ so after that i searched on the internet for any Exploit available for cutenews 
 &lt;p&gt;if you want to run that script its ok but i have to exploit the cutenews manually.&lt;/p&gt;
 &lt;p&gt;Its simple 3 step process.&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;create a user
-&lt;img src=&#34;https://mdninja.ml/images/passage/passage_create_user.png&#34; alt=&#34;&#34;&gt;&lt;/li&gt;
+&lt;li&gt;create a user&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Register Form
+&lt;img src=&#34;https://mdninja.ml/images/passage/passage_create_user.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ol start=&#34;2&#34;&gt;
 &lt;li&gt;then click on the personal options&lt;/li&gt;
 &lt;li&gt;scroll down you see the upload avatar upload the shell.php&lt;/li&gt;
 &lt;/ol&gt;

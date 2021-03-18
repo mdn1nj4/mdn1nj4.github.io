@@ -167,11 +167,9 @@
     <h1 id="__introduction__"><strong>Introduction</strong></h1>
 <p>Passage is medium level machine, Enumuration is the key for this box. First we have to exploit the cutenews Web application to Get the initial reverse shell after that i found the bunch of php files which contains the user information with base64 format then we get the hash for the user paul and decrypt the hash and i login to to user paul. The user paul and nadav share the  ssh keys so i copied the ssh key and Get access to the user nadav after that i found the nadav user in sudo group and .vim info reveal the usefull imformation for getting root this machine  In order to root this machine i used the USBCreator D-Bus Privilege Escalation.</p>
 <blockquote>
-<p>Skills Required : Enumuration
-Linux basic</p>
-</blockquote>
-<blockquote>
-<p>Skills Learned : web Exploitaion
+<p>Skills Required : Enumuration,
+Basic linux command<br>
+Skills Learned : web Exploitaion,
 USBCreator D-Bus Privilege Escalation</p>
 </blockquote>
 <h1 id="__enumuration__"><strong>Enumuration</strong></h1>
@@ -201,15 +199,21 @@ USBCreator D-Bus Privilege Escalation</p>
 <span class="ln">18</span>Nmap done: 1 IP address (1 host up) scanned in 22.31 seconds
 </code></pre></div><p>so the machine run the apache web server. I opened the web page in my browser</p>
 <h1 id="__cutenews__"><strong>CuteNews</strong></h1>
-<p><img src="/images/passage/passage_web_screen_shot.png" alt="">
-web page show the host name and give me the 2 Email address
+<blockquote>
+<p>Web page
+<img src="/images/passage/passage_web_screen_shot.png" alt=""></p>
+</blockquote>
+<p>web page show the host name and give me the 2 Email address<br>
 admin		: <a href="mailto:nadav@passage.htb">nadav@passage.htb</a><br>
 paul Colas	: <a href="mailto:paul@passage.htb">paul@passage.htb</a></p>
 <p>I add the passage.htb on my /etc/hosts file.<br>
 and the page reveals website is powered by Cutenews
-after searching on the internet i found the cutenews is the news management based on flat files as a storage.
-<img src="/images/passage/passage_cutenews_info.png" alt="">
-so after that i searched on the internet for any Exploit available for cutenews ad i looked the page source code i found some interesting information</p>
+after searching on the internet i found the cutenews is the news management based on flat files as a storage.</p>
+<blockquote>
+<p>Google Result
+<img src="/images/passage/passage_cutenews_info.png" alt=""></p>
+</blockquote>
+<p>so after that i searched on the internet for any Exploit available for cutenews ad i looked the page source code i found some interesting information</p>
 <div class="highlight"><pre class="chroma"><code class="language-html" data-lang="html"><span class="ln">1</span># Source Page Code 
 <span class="ln">2</span><span class="p">&lt;</span><span class="nt">link</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;CuteNews/libs/css/cosmo.min.css&#34;</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;stylesheet&#34;</span><span class="p">&gt;</span>
 <span class="ln">3</span><span class="p">&lt;</span><span class="nt">link</span> <span class="na">href</span><span class="o">=</span><span class="s">&#34;CuteNews/libs/css/font-awesome.min.css&#34;</span> <span class="na">rel</span><span class="o">=</span><span class="s">&#34;stylesheet&#34;</span><span class="p">&gt;</span>
@@ -240,8 +244,13 @@ so after that i searched on the internet for any Exploit available for cutenews 
 <p>if you want to run that script its ok but i have to exploit the cutenews manually.</p>
 <p>Its simple 3 step process.</p>
 <ol>
-<li>create a user
-<img src="/images/passage/passage_create_user.png" alt=""></li>
+<li>create a user</li>
+</ol>
+<blockquote>
+<p>Register Form
+<img src="/images/passage/passage_create_user.png" alt=""></p>
+</blockquote>
+<ol start="2">
 <li>then click on the personal options</li>
 <li>scroll down you see the upload avatar upload the shell.php</li>
 </ol>
