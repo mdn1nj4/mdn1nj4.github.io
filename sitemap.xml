@@ -4,22 +4,57 @@
   
   <url>
     <loc>https://mdninja.ml/categories/</loc>
-    <lastmod>2021-03-17T19:41:08+05:30</lastmod>
+    <lastmod>2021-03-19T01:14:23+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mdninja.ml/tags/cutenews/</loc>
+    <lastmod>2021-03-19T01:14:23+05:30</lastmod>
   </url>
   
   <url>
     <loc>https://mdninja.ml/tags/hackthebox/</loc>
-    <lastmod>2021-03-17T19:41:08+05:30</lastmod>
+    <lastmod>2021-03-19T01:14:23+05:30</lastmod>
   </url>
   
   <url>
     <loc>https://mdninja.ml/categories/hackthebox/</loc>
-    <lastmod>2021-03-17T19:41:08+05:30</lastmod>
+    <lastmod>2021-03-19T01:14:23+05:30</lastmod>
   </url>
   
   <url>
     <loc>https://mdninja.ml/tags/htb/</loc>
-    <lastmod>2021-03-17T19:41:08+05:30</lastmod>
+    <lastmod>2021-03-19T01:14:23+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mdninja.ml/tags/linux/</loc>
+    <lastmod>2021-03-19T01:14:23+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mdninja.ml/post/passage_htb/</loc>
+    <lastmod>2021-03-19T01:14:23+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mdninja.ml/post/</loc>
+    <lastmod>2021-03-19T01:14:23+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mdninja.ml/tags/</loc>
+    <lastmod>2021-03-19T01:14:23+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mdninja.ml/tags/usbcreator-d-bus/</loc>
+    <lastmod>2021-03-19T01:14:23+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mdninja.ml/tags/writeup/</loc>
+    <lastmod>2021-03-19T01:14:23+05:30</lastmod>
   </url>
   
   <url>
@@ -28,27 +63,7 @@
   </url>
   
   <url>
-    <loc>https://mdninja.ml/tags/linux/</loc>
-    <lastmod>2021-03-17T19:41:08+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mdninja.ml/post/</loc>
-    <lastmod>2021-03-17T19:41:08+05:30</lastmod>
-  </url>
-  
-  <url>
     <loc>https://mdninja.ml/tags/smb/</loc>
-    <lastmod>2021-03-17T19:41:08+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mdninja.ml/tags/</loc>
-    <lastmod>2021-03-17T19:41:08+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mdninja.ml/tags/writeup/</loc>
     <lastmod>2021-03-17T19:41:08+05:30</lastmod>
   </url>
   

