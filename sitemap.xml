@@ -4,26 +4,76 @@
   
   <url>
     <loc>https://mdninja.ml/categories/</loc>
-    <lastmod>2021-03-19T01:14:23+05:30</lastmod>
+    <lastmod>2021-03-28T04:35:07+05:30</lastmod>
   </url>
   
   <url>
-    <loc>https://mdninja.ml/tags/cutenews/</loc>
-    <lastmod>2021-03-19T01:14:23+05:30</lastmod>
+    <loc>https://mdninja.ml/tags/doas-priv/</loc>
+    <lastmod>2021-03-28T04:35:07+05:30</lastmod>
   </url>
   
   <url>
     <loc>https://mdninja.ml/tags/hackthebox/</loc>
-    <lastmod>2021-03-19T01:14:23+05:30</lastmod>
+    <lastmod>2021-03-28T04:35:07+05:30</lastmod>
   </url>
   
   <url>
     <loc>https://mdninja.ml/categories/hackthebox/</loc>
-    <lastmod>2021-03-19T01:14:23+05:30</lastmod>
+    <lastmod>2021-03-28T04:35:07+05:30</lastmod>
   </url>
   
   <url>
     <loc>https://mdninja.ml/tags/htb/</loc>
+    <lastmod>2021-03-28T04:35:07+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mdninja.ml/tags/lua/</loc>
+    <lastmod>2021-03-28T04:35:07+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mdninja.ml/post/luanne_htb/</loc>
+    <lastmod>2021-03-28T04:35:07+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mdninja.ml/tags/netbsd/</loc>
+    <lastmod>2021-03-28T04:35:07+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mdninja.ml/tags/netbsd-httpd/</loc>
+    <lastmod>2021-03-28T04:35:07+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mdninja.ml/tags/netgpg/</loc>
+    <lastmod>2021-03-28T04:35:07+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mdninja.ml/tags/openbsd/</loc>
+    <lastmod>2021-03-28T04:35:07+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mdninja.ml/post/</loc>
+    <lastmod>2021-03-28T04:35:07+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mdninja.ml/tags/</loc>
+    <lastmod>2021-03-28T04:35:07+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mdninja.ml/tags/writeup/</loc>
+    <lastmod>2021-03-28T04:35:07+05:30</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://mdninja.ml/tags/cutenews/</loc>
     <lastmod>2021-03-19T01:14:23+05:30</lastmod>
   </url>
   
@@ -38,22 +88,7 @@
   </url>
   
   <url>
-    <loc>https://mdninja.ml/post/</loc>
-    <lastmod>2021-03-19T01:14:23+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mdninja.ml/tags/</loc>
-    <lastmod>2021-03-19T01:14:23+05:30</lastmod>
-  </url>
-  
-  <url>
     <loc>https://mdninja.ml/tags/usbcreator-d-bus/</loc>
-    <lastmod>2021-03-19T01:14:23+05:30</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://mdninja.ml/tags/writeup/</loc>
     <lastmod>2021-03-19T01:14:23+05:30</lastmod>
   </url>
   

