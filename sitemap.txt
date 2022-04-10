@@ -1,0 +1,9 @@
+https://mdn1nj4.github.io/blog/post/hello-world/
+https://mdn1nj4.github.io/blog/post/CVE/cve-2022-22965-build-and-attack/
+https://mdn1nj4.github.io/blog/tags/index.html
+https://mdn1nj4.github.io/blog/categories/index.html
+https://mdn1nj4.github.io/blog
+https://mdn1nj4.github.io/blog/tags/spring-core/
+https://mdn1nj4.github.io/blog/tags/java/
+https://mdn1nj4.github.io/blog/tags/CVE-2022-22965/
+https://mdn1nj4.github.io/blog/categories/CVE/
