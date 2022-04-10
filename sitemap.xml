@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://mdn1nj4.github.io/blog/hello-world/</loc>
+    <loc>https://mdn1nj4.github.io/hello-world/</loc>
     
     <lastmod>2022-04-10</lastmod>
     
@@ -11,7 +11,7 @@
   </url>
   
   <url>
-    <loc>https://mdn1nj4.github.io/blog/about/index.html</loc>
+    <loc>https://mdn1nj4.github.io/about/index.html</loc>
     
     <lastmod>2022-04-10</lastmod>
     
@@ -20,7 +20,7 @@
   </url>
   
   <url>
-    <loc>https://mdn1nj4.github.io/blog/CVE/cve-2022-22965-build-and-attack/</loc>
+    <loc>https://mdn1nj4.github.io/CVE/cve-2022-22965-build-and-attack/</loc>
     
     <lastmod>2022-04-10</lastmod>
     
@@ -29,7 +29,7 @@
   </url>
   
   <url>
-    <loc>https://mdn1nj4.github.io/blog/tags/index.html</loc>
+    <loc>https://mdn1nj4.github.io/tags/index.html</loc>
     
     <lastmod>2022-04-10</lastmod>
     
@@ -38,7 +38,7 @@
   </url>
   
   <url>
-    <loc>https://mdn1nj4.github.io/blog/categories/index.html</loc>
+    <loc>https://mdn1nj4.github.io/categories/index.html</loc>
     
     <lastmod>2022-04-10</lastmod>
     
@@ -48,7 +48,7 @@
   
 
   <url>
-    <loc>https://mdn1nj4.github.io/blog</loc>
+    <loc>https://mdn1nj4.github.io/</loc>
     <lastmod>2022-04-10</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
@@ -56,21 +56,21 @@
 
   
   <url>
-    <loc>https://mdn1nj4.github.io/blog/tags/spring-core/</loc>
+    <loc>https://mdn1nj4.github.io/tags/spring-core/</loc>
     <lastmod>2022-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://mdn1nj4.github.io/blog/tags/java/</loc>
+    <loc>https://mdn1nj4.github.io/tags/java/</loc>
     <lastmod>2022-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://mdn1nj4.github.io/blog/tags/CVE-2022-22965/</loc>
+    <loc>https://mdn1nj4.github.io/tags/CVE-2022-22965/</loc>
     <lastmod>2022-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -79,7 +79,7 @@
 
   
   <url>
-    <loc>https://mdn1nj4.github.io/blog/categories/CVE/</loc>
+    <loc>https://mdn1nj4.github.io/categories/CVE/</loc>
     <lastmod>2022-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
