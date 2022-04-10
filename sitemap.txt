@@ -1,3 +1,4 @@
+https://mdn1nj4.github.io/blog/about/index.html
 https://mdn1nj4.github.io/blog/post/hello-world/
 https://mdn1nj4.github.io/blog/post/CVE/cve-2022-22965-build-and-attack/
 https://mdn1nj4.github.io/blog/tags/index.html
