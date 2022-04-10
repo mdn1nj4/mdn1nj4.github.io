@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://mdn1nj4.github.io/blog/hello-world/</loc>
+    
+    <lastmod>2022-04-10</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://mdn1nj4.github.io/blog/about/index.html</loc>
     
     <lastmod>2022-04-10</lastmod>
@@ -11,16 +20,7 @@
   </url>
   
   <url>
-    <loc>https://mdn1nj4.github.io/blog/post/hello-world/</loc>
-    
-    <lastmod>2022-04-10</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://mdn1nj4.github.io/blog/post/CVE/cve-2022-22965-build-and-attack/</loc>
+    <loc>https://mdn1nj4.github.io/blog/CVE/cve-2022-22965-build-and-attack/</loc>
     
     <lastmod>2022-04-10</lastmod>
     
