@@ -163,7 +163,7 @@ gtag('config', 'G-X9TKY34D40');
 </li>
 </ol>
 <p>so the machine run the apache web server. I opened the web page in my browser</p>
-<h1 id="CuteNews"><a href="#CuteNews" class="headerlink" title="CuteNews"></a><strong>CuteNews</strong></h1><p>web page show the host name and give me the 2 Email address<br>admin   : <a href="mailto:&#x6e;&#97;&#100;&#x61;&#118;&#64;&#x70;&#97;&#x73;&#x73;&#x61;&#x67;&#x65;&#46;&#x68;&#x74;&#x62;">&#x6e;&#97;&#100;&#x61;&#118;&#64;&#x70;&#97;&#x73;&#x73;&#x61;&#x67;&#x65;&#46;&#x68;&#x74;&#x62;</a><br>paul Colas  : <a href="mailto:&#112;&#97;&#x75;&#x6c;&#x40;&#112;&#x61;&#x73;&#115;&#x61;&#x67;&#x65;&#46;&#x68;&#116;&#98;">&#112;&#97;&#x75;&#x6c;&#x40;&#112;&#x61;&#x73;&#115;&#x61;&#x67;&#x65;&#46;&#x68;&#116;&#98;</a></p>
+<h1 id="CuteNews"><a href="#CuteNews" class="headerlink" title="CuteNews"></a><strong>CuteNews</strong></h1><p>web page show the host name and give me the 2 Email address<br>admin   : <a href="mailto:&#110;&#x61;&#100;&#97;&#x76;&#x40;&#x70;&#97;&#x73;&#115;&#x61;&#x67;&#101;&#x2e;&#x68;&#116;&#98;">&#110;&#x61;&#100;&#97;&#x76;&#x40;&#x70;&#97;&#x73;&#115;&#x61;&#x67;&#101;&#x2e;&#x68;&#116;&#98;</a><br>paul Colas  : <a href="mailto:&#112;&#x61;&#117;&#108;&#x40;&#x70;&#97;&#115;&#x73;&#97;&#103;&#x65;&#x2e;&#104;&#x74;&#x62;">&#112;&#x61;&#117;&#108;&#x40;&#x70;&#97;&#115;&#x73;&#97;&#103;&#x65;&#x2e;&#104;&#x74;&#x62;</a></p>
 <p>I add the passage.htb on my &#x2F;etc&#x2F;hosts file.<br>and the page reveals website is powered by Cutenews after searching on the internet i found the cutenews is the news management based on flat files as a storage.</p>
 <p>so after that i searched on the internet for any Exploit available for cutenews ad i looked the page source code i found some interesting information</p>
 <pre><code># Source Page Code 
@@ -320,7 +320,7 @@ ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCzXiscFGV3l9T2gvXOkh9w+BpPnhFv5AOPagArgzWD
 </code></pre>
 <h2 id="Getting-User-nadav"><a href="#Getting-User-nadav" class="headerlink" title="Getting User nadav"></a><strong>Getting User nadav</strong></h2><p>then i assume there is a possible that the user paul and nadav have shared SSH keys. so i copied the id_rsa file from the paul.</p>
 <blockquote>
-<p>user@home:~$ chmod 600 nadav.key user@home:~$ ssh -i nadav.key <a href="mailto:&#110;&#x61;&#100;&#x61;&#x76;&#64;&#112;&#x61;&#x73;&#115;&#x61;&#103;&#x65;&#x2e;&#104;&#116;&#x62;">&#110;&#x61;&#100;&#x61;&#x76;&#64;&#112;&#x61;&#x73;&#115;&#x61;&#103;&#x65;&#x2e;&#104;&#116;&#x62;</a> <strong>It worked</strong> I got the user nadav</p>
+<p>user@home:~$ chmod 600 nadav.key user@home:~$ ssh -i nadav.key <a href="mailto:&#x6e;&#x61;&#x64;&#97;&#x76;&#x40;&#112;&#x61;&#x73;&#x73;&#97;&#103;&#x65;&#x2e;&#104;&#116;&#x62;">&#x6e;&#x61;&#x64;&#97;&#x76;&#x40;&#112;&#x61;&#x73;&#x73;&#97;&#103;&#x65;&#x2e;&#104;&#116;&#x62;</a> <strong>It worked</strong> I got the user nadav</p>
 </blockquote>
 <pre><code>chmod 600 nadav.key
 
@@ -378,7 +378,7 @@ nadav@passage:~$
 <p>user@home:~$ chmod 600 root.key so let login to the root user…. BOOM</p>
 </blockquote>
 <blockquote>
-<p>user@home:~$ ssh -i root.key <a href="mailto:&#x72;&#111;&#111;&#x74;&#x40;&#112;&#97;&#x73;&#115;&#x61;&#x67;&#x65;&#46;&#104;&#x74;&#x62;">&#x72;&#111;&#111;&#x74;&#x40;&#112;&#97;&#x73;&#115;&#x61;&#x67;&#x65;&#46;&#104;&#x74;&#x62;</a></p>
+<p>user@home:~$ ssh -i root.key <a href="mailto:&#114;&#111;&#x6f;&#x74;&#64;&#x70;&#x61;&#x73;&#115;&#x61;&#x67;&#101;&#x2e;&#104;&#116;&#x62;">&#114;&#111;&#x6f;&#x74;&#64;&#x70;&#x61;&#x73;&#115;&#x61;&#x67;&#101;&#x2e;&#104;&#116;&#x62;</a></p>
 </blockquote>
 <pre><code>#ssh -i root.key root@passage.htb
 Last login: Mon Aug 31 15:14:22 2020 from 127.0.0.1
