@@ -1,3 +1,4 @@
+https://mdn1nj4.github.io/htb/hackthebox-late-writeup/
 https://mdn1nj4.github.io/htb/hackthebox-routerspace-writeup/
 https://mdn1nj4.github.io/htb/hackthebox-timelapse-writeup/
 https://mdn1nj4.github.io/htb/hackthebox-passage-writeup/
@@ -19,6 +20,7 @@ https://mdn1nj4.github.io/tags/htb/
 https://mdn1nj4.github.io/tags/spring-core/
 https://mdn1nj4.github.io/tags/java/
 https://mdn1nj4.github.io/tags/CVE-2022-22965/
+https://mdn1nj4.github.io/tags/ssti/
 https://mdn1nj4.github.io/tags/exploit/
 https://mdn1nj4.github.io/tags/powershell/
 https://mdn1nj4.github.io/tags/smb/
