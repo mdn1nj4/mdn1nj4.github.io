@@ -10,7 +10,7 @@
 
 body{
     margin:0;
-    background:black;
+    background:#000;
     height:100vh;
     display:flex;
     justify-content:center;
@@ -18,34 +18,37 @@ body{
     font-family:monospace;
 }
 
-/* rainbow glitch text */
+/* nice glowing text */
 #glitchText{
-    font-size:clamp(40px,15vw,120px);
+    font-size:clamp(40px,15vw,110px);
     font-weight:bold;
     text-align:center;
-    letter-spacing:0.1em;
+    letter-spacing:0.08em;
+    color:#00eaff;
 
-    background:linear-gradient(
-        90deg,
-        red,
-        orange,
-        yellow,
-        green,
-        cyan,
-        blue,
-        violet
-    );
+    text-shadow:
+        0 0 10px #00eaff,
+        0 0 20px #00eaff,
+        0 0 40px #00eaff,
+        0 0 80px #00eaff;
 
-    background-size:400%;
-    -webkit-background-clip:text;
-    color:transparent;
-
-    animation:rainbow 3s linear infinite;
+    animation: glow 2s ease-in-out infinite alternate;
 }
 
-@keyframes rainbow{
-    0%{background-position:0%;}
-    100%{background-position:400%;}
+@keyframes glow{
+    from{
+        text-shadow:
+            0 0 10px #00eaff,
+            0 0 20px #00eaff,
+            0 0 40px #00eaff;
+    }
+
+    to{
+        text-shadow:
+            0 0 20px #00eaff,
+            0 0 40px #00eaff,
+            0 0 80px #00eaff;
+    }
 }
 
 </style>
@@ -61,7 +64,7 @@ body{
 const names = [
 "ZAKIII ❤️",
 "ZAKIRA 🌙",
-"MOON 🌙"
+"MOON 🌙",
 "PAAGAL 😡",
 "SORRY 😕",
 "I LOVE YOU 💙"
