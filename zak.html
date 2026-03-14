@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZAKI 🌙</title>
+
+<style>
+
+body{
+    margin:0;
+    background:black;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:monospace;
+}
+
+/* rainbow glitch text */
+#glitchText{
+    font-size:clamp(40px,15vw,120px);
+    font-weight:bold;
+    text-align:center;
+    letter-spacing:0.1em;
+
+    background:linear-gradient(
+        90deg,
+        red,
+        orange,
+        yellow,
+        green,
+        cyan,
+        blue,
+        violet
+    );
+
+    background-size:400%;
+    -webkit-background-clip:text;
+    color:transparent;
+
+    animation:rainbow 3s linear infinite;
+}
+
+@keyframes rainbow{
+    0%{background-position:0%;}
+    100%{background-position:400%;}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="glitchText"></div>
+
+<script>
+
+const names = [
+"ZAKIII ❤️",
+"ZAKIRA 🌙",
+"MOON 🌙"
+"PAAGAL 😡",
+"SORRY 😕",
+"I LOVE YOU 💙"
+];
+
+const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
+const el = document.getElementById("glitchText");
+
+let nameIndex = 0;
+
+function randomString(length){
+    let result="";
+    for(let i=0;i<length;i++){
+        result += chars[Math.floor(Math.random()*chars.length)];
+    }
+    return result;
+}
+
+function runGlitch(){
+
+    const name = names[nameIndex];
+    let count = 0;
+
+    const glitchInterval = setInterval(()=>{
+
+        el.textContent = randomString(name.length);
+        count++;
+
+        if(count > 25){
+
+            clearInterval(glitchInterval);
+            el.textContent = name;
+
+            nameIndex = (nameIndex + 1) % names.length;
+
+            setTimeout(runGlitch,1200);
+
+        }
+
+    },40);
+
+}
+
+runGlitch();
+
+</script>
+
+</body>
+</html>
