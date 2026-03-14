@@ -9,46 +9,100 @@
 <style>
 
 body{
-    margin:0;
-    background:#000;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-family:monospace;
+margin:0;
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+font-family:monospace;
+color:white;
+overflow:hidden;
+
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+background-size:300% 300%;
+animation:bgmove 15s ease infinite;
 }
 
-/* nice glowing text */
+@keyframes bgmove{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
+
+/* floating stars */
+
+.star{
+position:absolute;
+width:3px;
+height:3px;
+background:white;
+border-radius:50%;
+opacity:0.6;
+animation:float 8s linear infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(0)}
+100%{transform:translateY(-100vh)}
+}
+
+/* glitch text */
+
 #glitchText{
-    font-size:clamp(40px,15vw,110px);
-    font-weight:bold;
-    text-align:center;
-    letter-spacing:0.08em;
-    color:#00eaff;
+font-size:clamp(40px,12vw,90px);
+font-weight:bold;
+text-align:center;
+letter-spacing:0.1em;
+color:white;
 
-    text-shadow:
-        0 0 10px #00eaff,
-        0 0 20px #00eaff,
-        0 0 40px #00eaff,
-        0 0 80px #00eaff;
+text-shadow:
+0 0 10px rgba(255,255,255,0.8),
+0 0 30px rgba(255,255,255,0.5);
 
-    animation: glow 2s ease-in-out infinite alternate;
+animation:floatText 4s ease-in-out infinite;
 }
 
-@keyframes glow{
-    from{
-        text-shadow:
-            0 0 10px #00eaff,
-            0 0 20px #00eaff,
-            0 0 40px #00eaff;
-    }
+@keyframes floatText{
+0%,100%{transform:translateY(0)}
+50%{transform:translateY(-10px)}
+}
 
-    to{
-        text-shadow:
-            0 0 20px #00eaff,
-            0 0 40px #00eaff,
-            0 0 80px #00eaff;
-    }
+/* countdown container at bottom */
+
+.countdown-box{
+position:absolute;
+bottom:40px;
+
+padding:20px 40px;
+border-radius:20px;
+
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(15px);
+
+border:1px solid rgba(255,255,255,0.15);
+
+box-shadow:0 10px 40px rgba(0,0,0,0.5);
+
+text-align:center;
+}
+
+/* label */
+
+#label{
+font-size:18px;
+opacity:0.8;
+margin-bottom:10px;
+letter-spacing:2px;
+text-align:center;
+}
+
+/* timer */
+
+#countdown{
+font-size:clamp(22px,5vw,36px);
+font-weight:bold;
+letter-spacing:3px;
 }
 
 </style>
@@ -59,56 +113,102 @@ body{
 
 <div id="glitchText"></div>
 
+<div class="countdown-box">
+<div id="label">🚆 For Train</div>
+<div id="countdown"></div>
+</div>
+
 <script>
 
-const names = [
-"ZAKIII ❤️",
+/* floating stars */
+
+for(let i=0;i<60;i++){
+let star=document.createElement("div");
+star.className="star";
+star.style.left=Math.random()*100+"vw";
+star.style.top=Math.random()*100+"vh";
+star.style.animationDuration=(5+Math.random()*10)+"s";
+document.body.appendChild(star);
+}
+
+/* glitch messages */
+
+const names=[
+"ZAKI ❤️",
 "ZAKIRA 🌙",
-"MOON 🌙",
 "PAAGAL 😡",
+"MOON 🌙",
 "SORRY 😕",
-"I LOVE YOU 💙"
+"I LOVE YOU 💙",
+"Don't Get Mad at Me 😤"
 ];
 
-const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*";
-const el = document.getElementById("glitchText");
+const chars="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+const el=document.getElementById("glitchText");
 
-let nameIndex = 0;
+let nameIndex=0;
 
 function randomString(length){
-    let result="";
-    for(let i=0;i<length;i++){
-        result += chars[Math.floor(Math.random()*chars.length)];
-    }
-    return result;
+let result="";
+for(let i=0;i<length;i++){
+result+=chars[Math.floor(Math.random()*chars.length)];
+}
+return result;
 }
 
 function runGlitch(){
 
-    const name = names[nameIndex];
-    let count = 0;
+const name=names[nameIndex];
+let count=0;
 
-    const glitchInterval = setInterval(()=>{
+const interval=setInterval(()=>{
 
-        el.textContent = randomString(name.length);
-        count++;
+el.textContent=randomString(name.length);
+count++;
 
-        if(count > 25){
+if(count>20){
 
-            clearInterval(glitchInterval);
-            el.textContent = name;
+clearInterval(interval);
+el.textContent=name;
 
-            nameIndex = (nameIndex + 1) % names.length;
+nameIndex=(nameIndex+1)%names.length;
 
-            setTimeout(runGlitch,1200);
+setTimeout(runGlitch,1500);
 
-        }
+}
 
-    },40);
+},40);
 
 }
 
 runGlitch();
+
+/* countdown */
+
+const targetDate=new Date("March 18, 2026 10:55:00").getTime();
+const countdownEl=document.getElementById("countdown");
+
+setInterval(()=>{
+
+const now=new Date().getTime();
+const distance=targetDate-now;
+
+const days=Math.floor(distance/(1000*60*60*24));
+const hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+const minutes=Math.floor((distance%(1000*60*60))/(1000*60));
+const seconds=Math.floor((distance%(1000*60))/1000);
+
+countdownEl.textContent =
+days+"d "+
+hours+"h "+
+minutes+"m "+
+seconds+"s left";
+
+if(distance<0){
+countdownEl.textContent="🚆 Train Time ❤️";
+}
+
+},1000);
 
 </script>
 
